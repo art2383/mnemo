@@ -1,0 +1,11 @@
+.theme-dark {
+    background-color: #323233;
+}
+
+.theme-dark * {
+    color: #e5e5e5;
+}
+
+.theme-dark nav {
+    background-color: grey;
+}

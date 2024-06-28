@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import 'theme-light.css';
+@import 'theme-dark.css';
+
+/*
+z-index index:
+- 10 navbar
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', serif;
+  font-weight: 400;
+}
+
+html {
+  --gutter: 20px;
+  --navbar-width: 220px;
+  --radius: 15px;
+  font-size: 14px;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+h1 {
+  margin-bottom: var(--gutter);
+  font-weight: 800 !important;
+}
+
+button {
+  padding: 8px 40px;
+  border: 0;
+  border-radius: 8px;
+  /*box-shadow: 1px 1px 8px -1px rgba(0,0,0,0.5);*/
+  font-weight: 600;
+  outline: 0;
+}
+
+.mono, .mono * {
+  font-family: 'Courier New', monospace;
+}
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.pad {
+  background: #f1f2f5;
+  border: 1px solid #e1e1e3;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 20px -10px rgba(0,0,0,0.5);
+  padding: var(--gutter);
+}

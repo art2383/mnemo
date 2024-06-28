@@ -1,0 +1,59 @@
+.theme-light {
+    --color-main: #d8e1f3;
+    --color-font: #323234;
+    --color-accent: #06a284;
+    --color-accent-hover: #05b291;
+    --color-accent-active: #057962;
+    --color-secondary-hover: #e5ebf8;
+    --color-secondary-active: #c7cfe0;
+    background-color: var(--color-main);
+}
+
+.theme-light * {
+    color: var(--color-font);
+}
+
+.theme-light nav {
+    background: linear-gradient(to bottom, #054f8a 0%,#62b1df 100%);
+}
+
+.theme-light nav * {
+    color: var(--color-main);
+}
+
+.theme-light nav .logo {
+    background-color: var(--color-main);
+}
+
+.theme-light nav .menu-item.active {
+    background: var(--color-main);
+    color: var(--color-font)
+}
+
+.theme-light button {
+    border: 2px solid var(--color-accent);
+    background: var(--color-accent);
+    color: white;
+}
+
+.theme-light button:hover {
+    background: var(--color-accent-hover);
+}
+
+.theme-light button:active {
+    background: var(--color-accent-active);
+}
+
+.theme-light button.secondary {
+    border: 2px solid var(--color-accent);
+    background: transparent;
+    color: var(--color-accent);
+}
+
+.theme-light button.secondary:hover {
+    background: var(--color-secondary-hover);
+}
+
+.theme-light button.secondary:active {
+    background: var(--color-secondary-active);
+}
