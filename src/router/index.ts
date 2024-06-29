@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-const routes = [
+const routes: {path: string, name: string, component: Function}[] = [
   {
     path: '/',
     name: 'home',
