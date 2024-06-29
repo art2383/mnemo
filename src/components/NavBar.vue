@@ -1,11 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
 
-const props = defineProps({
-  theme: {
-    type: String,
-    default: 'light'
-  }
+type Props = {
+  theme: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  theme: 'light'
 })
 
 const router = useRouter()
@@ -41,7 +42,7 @@ const goTo = (key) => {
     </div>
 
     <div class="bottom" @click="$emit('theme-clicked')">
-      Theme: {{ theme }}
+      Theme: {{ props.theme }}
     </div>
   </nav>
 </template>
