@@ -12,17 +12,17 @@ const props = withDefaults(defineProps<Props>(), {
 const router = useRouter()
 const route = useRoute()
 
-const menu = { // not wrapped in ref, because it doesn't seem necessary, it is a constant, not something reactive
+const menu: object = { // not wrapped in ref, because it doesn't seem necessary, it is a constant, not something reactive
   home: 'Home',
   generateValid: 'Generate Valid',
   generateInvalid: 'Generate Invalid'
 }
 
-const goTo = (key) => {
-  if (route.name === key) {
+const goTo = (routeName: string): void => {
+  if (route.name === routeName) {
     return
   }
-  router.push({name: key})
+  router.push({name: routeName})
 }
 </script>
 

@@ -1,6 +1,7 @@
 {
   "files": [
-    "node_modules/@vue/runtime-core/dist/runtime-core.d.ts"
+    "node_modules/@vue/runtime-core/dist/runtime-core.d.ts",
+    "node_modules/@types/node/buffer.d.ts"
   ],
   "references": [
     {

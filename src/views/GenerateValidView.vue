@@ -1,5 +1,5 @@
-<script setup>
-import { ref, watch } from 'vue'
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
 import { useStoreMnemonic } from '@/stores/mnemonic.ts'
 import { storeToRefs } from 'pinia'
 import { mnemonicToSeed } from 'bip39'
@@ -8,8 +8,13 @@ const storeMnemonic = useStoreMnemonic()
 const { mnemonic, mnemonicWords, isValid } = storeToRefs(storeMnemonic)
 
 const seed = ref('')
+// const seedInLines = computed(() => {
+//   const arr: string[] = seed.value.match(/.{1, 32}/g)
+//   const lines: string = arr.join('\n')
+//   return lines
+// })
 
-watch(mnemonic, (newVal) => {
+watch(mnemonic, (newVal: string) => {
   // this would have been better implemented without watcher,
   // by using mnemonicToSeedSync (synchronous analogue to mnemonicToSeed),
   // but I didn't know that at the time;
@@ -19,14 +24,16 @@ watch(mnemonic, (newVal) => {
   }
 
   mnemonicToSeed(newVal)
-    .then((res) => { // result is of type Buffer
+    .then((res: Buffer): void => {
       seed.value = res.toString('hex')
     })
 })
 
-const copy = (text) => {
+const copy = (text: string): void => {
   navigator.clipboard.writeText(text)
-  console.log('copied!')
+    .then(() => {
+      console.log('copied!')
+    })
 }
 </script>
 
