@@ -1,32 +1,23 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useStoreMnemonic } from '@/stores/mnemonic.ts'
 import { storeToRefs } from 'pinia'
-import { mnemonicToSeed } from 'bip39'
+import { mnemonicToSeedSync } from 'bip39'
 
 const storeMnemonic = useStoreMnemonic()
 const { mnemonic, mnemonicWords, isValid } = storeToRefs(storeMnemonic)
 
-const seed = ref('')
-// const seedInLines = computed(() => {
-//   const arr: string[] = seed.value.match(/.{1, 32}/g)
-//   const lines: string = arr.join('\n')
-//   return lines
-// })
+const seed = computed((): Buffer => {
+  return mnemonicToSeedSync(mnemonic.value)
+})
 
-watch(mnemonic, (newVal: string) => {
-  // this would have been better implemented without watcher,
-  // by using mnemonicToSeedSync (synchronous analogue to mnemonicToSeed),
-  // but I didn't know that at the time;
-  // practiced the watcher though, which is good.
-  if (!newVal) {
-    return
-  }
+const seedString = computed((): string => {
+  return seed.value.toString('hex')
+})
 
-  mnemonicToSeed(newVal)
-    .then((res: Buffer): void => {
-      seed.value = res.toString('hex')
-    })
+const seedLines = computed((): string => {
+  const arr: string[] = seedString.value.match(/.{1,32}/g)
+  return arr.join('\n')
 })
 
 const copy = (text: string): void => {
@@ -49,7 +40,8 @@ const copy = (text: string): void => {
     <template v-if="mnemonic">
       <h3>Mnemonic</h3>
       <div class="mnemonic">
-        {{ mnemonic }} <button @click="copy(mnemonic)">Copy</button>
+        {{ mnemonic }}
+        <button @click="copy(mnemonic)">Copy</button>
       </div>
 
       <h3>Validity</h3>
@@ -70,8 +62,8 @@ const copy = (text: string): void => {
       </div>
 
       <h3>Seed</h3>
-      <div class="seed">
-        {{ seed }}
+      <div class="seed mono">
+        {{ seedLines }}
       </div>
     </template>
   </div>
