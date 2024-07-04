@@ -50,6 +50,10 @@ button {
   font-family: 'Courier New', monospace;
 }
 
+.break {
+  word-break: break-word;
+}
+
 .link {
   text-decoration: underline;
   cursor: pointer;

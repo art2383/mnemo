@@ -3,7 +3,7 @@ import { useStoreMnemonic } from '@/stores/mnemonic.ts'
 import { storeToRefs } from 'pinia'
 
 const storeMnemonic = useStoreMnemonic()
-const { mnemonic, mnemonicWords, isMnemonic, isValidMnemonic, seed } = storeToRefs(storeMnemonic)
+const { mnemonic, mnemonicWords, isMnemonic, isValidMnemonic, seed, rootKey, bitcoinPublicKeys } = storeToRefs(storeMnemonic)
 
 const copy = (text: string): void => {
   navigator.clipboard.writeText(text)
@@ -47,9 +47,27 @@ const copy = (text: string): void => {
       </div>
 
       <h3>Seed</h3>
-      <div class="seed mono">
-        {{ seed.seedLines }}
+      <div class="seed mono break">
+        {{ seed.seedString }}
       </div>
+
+      <h3>Root Key (Private)</h3>
+      <div class="seed mono break">
+        {{ rootKey.toJSON().xpriv }}
+      </div>
+
+      <h3>Root Key (Public)</h3>
+      <div class="seed mono break">
+        {{ rootKey.toJSON().xpub }}
+      </div>
+
+      <h3>Bitcoin Public Keys</h3>
+      <div class="seed mono">
+        {{ bitcoinPublicKeys }}
+      </div>
+
+
+
     </template>
   </div>
 </template>

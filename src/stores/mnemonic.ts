@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { generateMnemonic, validateMnemonic, mnemonicToSeedSync, wordlists } from 'bip39'
+import { HDKey } from '@scure/bip32' // regular bip32 library has dependencies, this one doesn't, and this one is easier implemented
+import { uint8ArrayToHex } from '@/common/helpers'
 
 type MnemonicWordsArray = {
   word: string,
@@ -10,13 +12,14 @@ type MnemonicWordsArray = {
 
 type Seed = {
   seedBuffer: Buffer,
-  seedString: string,
-  seedLines: string
+  seedString: string
 }
 
 const wordList: string[] = wordlists.english
 
 const moduleSetup = () => {
+  const q = 5 // not reactive, no need
+
   const mnemonic = ref('')
 
   const mnemonicWords = computed((): MnemonicWordsArray => {
@@ -51,8 +54,23 @@ const moduleSetup = () => {
   const seed = computed((): Seed => {
     const seedBuffer: Buffer = mnemonicToSeedSync(mnemonic.value)
     const seedString: string = seedBuffer.toString('hex')
-    const seedLines: string = seedString.match(/.{1,32}/g).join('\n')
-    return { seedBuffer, seedString, seedLines }
+    return { seedBuffer, seedString }
+  })
+
+  const rootKey = computed((): HDKey => {
+    return HDKey.fromMasterSeed(seed.value.seedBuffer)
+  })
+
+  const bitcoinPublicKeys = computed((): string[] => {
+    // need config for blockchains, their readable names, derivation paths, etc,
+    // so that this method would go through it
+    let result = []
+    for (let i = 0; i < q; i++) {
+      let derivedHdKey: HDKey = rootKey.value.derive(`m/44'/0'/0'/0/${i}`)
+      let publicKey = uint8ArrayToHex(derivedHdKey.publicKey)
+      result.push(publicKey)
+    }
+    return result
   })
 
   const generate = (): void => {
@@ -65,7 +83,7 @@ const moduleSetup = () => {
 
   return {
     mnemonic,
-    mnemonicWords, isMnemonic, isValidMnemonic, seed,
+    mnemonicWords, isMnemonic, isValidMnemonic, seed, rootKey, bitcoinPublicKeys,
     generate, clear
   }
 }
