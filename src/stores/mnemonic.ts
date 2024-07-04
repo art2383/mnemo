@@ -29,7 +29,16 @@ const moduleSetup = () => {
     return result
   })
 
-  const isValid = computed((): boolean => {
+  const isMnemonic = computed((): boolean => {
+    const words: string[] = mnemonic.value.split(' ')
+    const lengthIsCorrect = [12, 15, 18, 21, 24].includes(words.length)
+    if (!lengthIsCorrect) {
+      return false
+    }
+    return words.every(w => wordList.includes(w))
+  })
+
+  const isValidMnemonic = computed((): boolean => {
     return validateMnemonic(mnemonic.value)
   })
 
@@ -43,7 +52,7 @@ const moduleSetup = () => {
 
   return {
     mnemonic,
-    mnemonicWords, isValid,
+    mnemonicWords, isMnemonic, isValidMnemonic,
     generate, clear
   }
 }

@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import { mnemonicToSeedSync } from 'bip39'
 
 const storeMnemonic = useStoreMnemonic()
-const { mnemonic, mnemonicWords, isValid } = storeToRefs(storeMnemonic)
+const { mnemonic, mnemonicWords, isMnemonic, isValidMnemonic } = storeToRefs(storeMnemonic)
 
 const seed = computed((): Buffer => {
   return mnemonicToSeedSync(mnemonic.value)
@@ -45,8 +45,8 @@ const copy = (text: string): void => {
       </div>
 
       <h3>Validity</h3>
-      <div class="validity" :class="{invalid: !isValid}">
-        Mnemonic is <span v-if="!isValid">NOT</span> valid
+      <div class="validity" :class="{invalid: !isValidMnemonic}">
+        <span v-if="isMnemonic">Is mnemonic</span>, <span v-if="isValidMnemonic">Is valid</span>
       </div>
 
       <h3>Words Table</h3>
