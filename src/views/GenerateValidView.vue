@@ -1,24 +1,9 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import { useStoreMnemonic } from '@/stores/mnemonic.ts'
 import { storeToRefs } from 'pinia'
-import { mnemonicToSeedSync } from 'bip39'
 
 const storeMnemonic = useStoreMnemonic()
-const { mnemonic, mnemonicWords, isMnemonic, isValidMnemonic } = storeToRefs(storeMnemonic)
-
-const seed = computed((): Buffer => {
-  return mnemonicToSeedSync(mnemonic.value)
-})
-
-const seedString = computed((): string => {
-  return seed.value.toString('hex')
-})
-
-const seedLines = computed((): string => {
-  const arr: string[] = seedString.value.match(/.{1,32}/g)
-  return arr.join('\n')
-})
+const { mnemonic, mnemonicWords, isMnemonic, isValidMnemonic, seed } = storeToRefs(storeMnemonic)
 
 const copy = (text: string): void => {
   navigator.clipboard.writeText(text)
@@ -63,7 +48,7 @@ const copy = (text: string): void => {
 
       <h3>Seed</h3>
       <div class="seed mono">
-        {{ seedLines }}
+        {{ seed.seedLines }}
       </div>
     </template>
   </div>

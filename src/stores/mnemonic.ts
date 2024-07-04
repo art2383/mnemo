@@ -1,12 +1,18 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { generateMnemonic, validateMnemonic, wordlists } from 'bip39'
+import { generateMnemonic, validateMnemonic, mnemonicToSeedSync, wordlists } from 'bip39'
 
 type MnemonicWordsArray = {
   word: string,
   line: number,
   hex: string
 }[]
+
+type Seed = {
+  seedBuffer: Buffer,
+  seedString: string,
+  seedLines: string
+}
 
 const wordList: string[] = wordlists.english
 
@@ -42,6 +48,13 @@ const moduleSetup = () => {
     return validateMnemonic(mnemonic.value)
   })
 
+  const seed = computed((): Seed => {
+    const seedBuffer: Buffer = mnemonicToSeedSync(mnemonic.value)
+    const seedString: string = seedBuffer.toString('hex')
+    const seedLines: string = seedString.match(/.{1,32}/g).join('\n')
+    return { seedBuffer, seedString, seedLines }
+  })
+
   const generate = (): void => {
     mnemonic.value = generateMnemonic()
   }
@@ -52,7 +65,7 @@ const moduleSetup = () => {
 
   return {
     mnemonic,
-    mnemonicWords, isMnemonic, isValidMnemonic,
+    mnemonicWords, isMnemonic, isValidMnemonic, seed,
     generate, clear
   }
 }
