@@ -2,7 +2,8 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { generateMnemonic, validateMnemonic, mnemonicToSeedSync, wordlists } from 'bip39'
 import { HDKey } from '@scure/bip32' // regular bip32 library has dependencies, this one doesn't, and this one is easier implemented
-import { uint8ArrayToHex } from '@/common/helpers'
+import { publicKeyToBitcoinAddress, uint8ArrayToHex } from '@/common/helpers'
+import { derivationConfig } from '@/common/derivation-config'
 
 type MnemonicWordsArray = {
   word: string,
@@ -61,15 +62,24 @@ const moduleSetup = () => {
     return HDKey.fromMasterSeed(seed.value.seedBuffer)
   })
 
-  const bitcoinPublicKeys = computed((): string[] => {
-    // need config for blockchains, their readable names, derivation paths, etc,
-    // so that this method would go through it
-    let result = []
-    for (let i = 0; i < q; i++) {
-      let derivedHdKey: HDKey = rootKey.value.derive(`m/44'/0'/0'/0/${i}`)
-      let publicKey = uint8ArrayToHex(derivedHdKey.publicKey)
-      result.push(publicKey)
-    }
+  const derivations = computed((): [] => {
+    const result = []
+    Object.keys(derivationConfig).forEach(blockchain => {
+      const publicKeys: string[] = []
+      const addresses: string[] = []
+      for (let i = 0; i < q; i++) {
+        const publicKey: Uint8Array = rootKey.value.derive(derivationConfig[blockchain].path + i).publicKey
+        const address: string = derivationConfig[blockchain].method(Buffer.from(publicKey))
+        const publicKeyReadable: string = uint8ArrayToHex(publicKey)
+        publicKeys.push(publicKeyReadable)
+        addresses.push(address)
+      }
+      result.push({
+        title: derivationConfig[blockchain].title,
+        publicKeys,
+        addresses
+      })
+    })
     return result
   })
 
@@ -83,7 +93,7 @@ const moduleSetup = () => {
 
   return {
     mnemonic,
-    mnemonicWords, isMnemonic, isValidMnemonic, seed, rootKey, bitcoinPublicKeys,
+    mnemonicWords, isMnemonic, isValidMnemonic, seed, rootKey, derivations,
     generate, clear
   }
 }

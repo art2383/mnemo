@@ -3,7 +3,15 @@ import { useStoreMnemonic } from '@/stores/mnemonic.ts'
 import { storeToRefs } from 'pinia'
 
 const storeMnemonic = useStoreMnemonic()
-const { mnemonic, mnemonicWords, isMnemonic, isValidMnemonic, seed, rootKey, bitcoinPublicKeys } = storeToRefs(storeMnemonic)
+const {
+  mnemonic,
+  mnemonicWords,
+  isMnemonic,
+  isValidMnemonic,
+  seed,
+  rootKey,
+  derivations
+} = storeToRefs(storeMnemonic)
 
 const copy = (text: string): void => {
   navigator.clipboard.writeText(text)
@@ -35,16 +43,16 @@ const copy = (text: string): void => {
       </div>
 
       <h3>Words Table</h3>
-      <div class="mnemonic-table mnemonic-table--ver">
-        <div class="th">#</div>
-        <div v-for="n in 12" :key="n">{{ n }}</div>
-        <div class="th">Word</div>
-        <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.word }}</div>
-        <div class="th">Line</div>
-        <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.line }}</div>
-        <div class="th">Hex</div>
-        <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.hex }}</div>
-      </div>
+            <div class="mnemonic-table mnemonic-table--ver">
+              <div class="th">#</div>
+              <div v-for="n in 12" :key="n">{{ n }}</div>
+              <div class="th">Word</div>
+              <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.word }}</div>
+              <div class="th">Line</div>
+              <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.line }}</div>
+              <div class="th">Hex</div>
+              <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.hex }}</div>
+            </div>
 
       <h3>Seed</h3>
       <div class="seed mono break">
@@ -61,12 +69,8 @@ const copy = (text: string): void => {
         {{ rootKey.toJSON().xpub }}
       </div>
 
-      <h3>Bitcoin Public Keys</h3>
-      <div class="seed mono">
-        {{ bitcoinPublicKeys }}
-      </div>
-
-
+      <h3>Derivations</h3>
+      <pre class="seed mono">{{ JSON.stringify(derivations, null, 2) }}</pre>
 
     </template>
   </div>
