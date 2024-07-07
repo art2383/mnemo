@@ -59,7 +59,7 @@ const moduleSetup = () => {
   })
 
   const rootKey = computed((): HDKey => {
-    return HDKey.fromMasterSeed(seed.value.seedBuffer)
+    return HDKey.fromMasterSeed(new Uint8Array(seed.value.seedBuffer))
   })
 
   const derivations = computed((): [] => {
