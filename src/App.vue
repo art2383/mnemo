@@ -19,6 +19,10 @@ const toggleTheme = () => {
 </template>
 
 <style scoped>
+.app {
+  background-color: var(--color-main);
+}
+
 nav {
   position: fixed;
   left: 0; top: 0;

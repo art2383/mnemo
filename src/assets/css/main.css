@@ -3,8 +3,14 @@
 @import 'theme-dark.css';
 
 /*
-z-index index:
-- 10 navbar
+z-indices:
++ 10 navbar
+
+headings:
+* h1 - main heading, the only one
+* h2 - sub heading
+* grid heading inside a pad, does not use any h tag
+* h3 - 1rem bold inside a pad
 */
 
 *,
@@ -37,13 +43,18 @@ h1 {
   font-weight: 800 !important;
 }
 
+h3 {
+  font-size: 1rem;
+  font-weight: 600 !important;
+}
+
 button {
   padding: 8px 40px;
   border: 0;
   border-radius: 8px;
-  /*box-shadow: 1px 1px 8px -1px rgba(0,0,0,0.5);*/
   font-weight: 600;
   outline: 0;
+  cursor: pointer;
 }
 
 .mono, .mono * {
@@ -59,10 +70,3 @@ button {
   cursor: pointer;
 }
 
-.pad {
-  background: #f1f2f5;
-  border: 1px solid #e1e1e3;
-  border-radius: var(--radius);
-  box-shadow: 0 10px 20px -10px rgba(0,0,0,0.5);
-  padding: var(--gutter);
-}

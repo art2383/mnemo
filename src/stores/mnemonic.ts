@@ -19,7 +19,7 @@ type Seed = {
 const wordList: string[] = wordlists.english
 
 const moduleSetup = () => {
-  const q = 5 // not reactive, no need
+  const q = 3 // not reactive, no need
 
   const mnemonic = ref('')
 
@@ -76,6 +76,7 @@ const moduleSetup = () => {
       }
       result.push({
         title: derivationConfig[blockchain].title,
+        path: derivationConfig[blockchain].path + 'i',
         publicKeys,
         addresses
       })

@@ -6,7 +6,6 @@
     --color-accent-active: #057962;
     --color-secondary-hover: #e5ebf8;
     --color-secondary-active: #c7cfe0;
-    background-color: var(--color-main);
 }
 
 .theme-light * {
