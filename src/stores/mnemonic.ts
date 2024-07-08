@@ -23,15 +23,17 @@ const moduleSetup = () => {
 
   const mnemonic = ref('')
 
+  const words = computed((): string[] => {
+    return mnemonic.value.split(' ')
+  })
+
   const mnemonicWords = computed((): MnemonicWordsArray => {
     const result: MnemonicWordsArray = []
 
     if (!mnemonic.value) {
       return result
     }
-
-    const words: string[] = mnemonic.value.split(' ')
-    words.forEach((word: string) => {
+    words.value.forEach((word: string) => {
       const line: number = wordList.findIndex(w => w === word) + 1
       const hex: string = line.toString(16)
       result.push({ word, line, hex })
@@ -39,13 +41,12 @@ const moduleSetup = () => {
     return result
   })
 
-  const isMnemonic = computed((): boolean => {
-    const words: string[] = mnemonic.value.split(' ')
-    const lengthIsCorrect = [12, 15, 18, 21, 24].includes(words.length)
-    if (!lengthIsCorrect) {
-      return false
-    }
-    return words.every(w => wordList.includes(w))
+  const isCorrectLength = computed((): boolean => {
+    return [12, 15, 18, 21, 24].includes(words.value.length)
+  })
+
+  const isFromDictionary = computed((): boolean => {
+    return words.value.every(w => wordList.includes(w))
   })
 
   const isValidMnemonic = computed((): boolean => {
@@ -94,7 +95,7 @@ const moduleSetup = () => {
 
   return {
     mnemonic,
-    mnemonicWords, isMnemonic, isValidMnemonic, seed, rootKey, derivations,
+    mnemonicWords, isCorrectLength, isFromDictionary, isValidMnemonic, seed, rootKey, derivations,
     generate, clear
   }
 }

@@ -7,7 +7,8 @@ const storeMnemonic = useStoreMnemonic()
 const {
   mnemonic,
   mnemonicWords,
-  isMnemonic,
+  isCorrectLength,
+  isFromDictionary,
   isValidMnemonic,
   seed,
   rootKey,
@@ -47,8 +48,10 @@ const copy = (text: string): void => {
         <template #heading>Validity</template>
         <template #about>Checking length, dictionary and BIP-39 validity</template>
         <template #body>
-          <div class="validity" :class="{invalid: !isValidMnemonic}">
-            <span v-if="isMnemonic">Is mnemonic</span>, <span v-if="isValidMnemonic">Is valid</span>
+          <div class="validity">
+            <div>Is <span v-show="!isCorrectLength">NOT</span> correct length</div>
+            <div>Is <span v-show="!isFromDictionary">NOT</span> from dictionary</div>
+            <div>Is <span v-show="!isValidMnemonic">NOT</span> BIP-39 valid</div>
           </div>
         </template>
         <template #footer></template>
@@ -139,17 +142,8 @@ const copy = (text: string): void => {
 }
 
 .validity {
-  color: green;
-  font-weight: 600;
-}
-
-.validity.invalid {
-  color: red;
-}
-
-.validity span {
-  font-weight: inherit;
-  color: inherit;
+  display: flex;
+  justify-content: space-between;
 }
 
 .mnemonic-table {
