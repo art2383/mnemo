@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useStoreMnemonic } from '@/stores/mnemonic.ts'
 import { storeToRefs } from 'pinia'
 import PadBox from '@/components/PadBox.vue'
+import CopyIcon from '@/components/CopyIcon.vue'
 
 type Validation = {
   fn: Function,
@@ -29,13 +30,6 @@ const validations = computed((): Validation[] => {
     { fn: isValidMnemonic.value, title: 'BIP-39 Valid', icon: 'license' }
   ]
 })
-
-const copy = (text: string): void => {
-  navigator.clipboard.writeText(text)
-    .then(() => {
-      console.log('copied!')
-    })
-}
 </script>
 
 <template>
@@ -48,11 +42,11 @@ const copy = (text: string): void => {
         <template #heading>Generate Mnemonic</template>
         <template #about>Via BIP-39 standard generation method</template>
         <template #body>
-          <template v-if="mnemonic">{{ mnemonic }}</template>
-          <template v-else>Start with generating the mnemonic phrase</template>
+          <div class="mnemonic" v-if="mnemonic">{{ mnemonic }}&#32;<CopyIcon :text="mnemonic" />
+          </div>
+          <div v-else>BIP-39 valid mnemonic will be accepted in all wallets, but the last word is not random but is a checksum</div>
         </template>
         <template #footer>
-          <button v-show=mnemonic @click="copy(mnemonic)">Copy</button>
           <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">Clear</button>
           <button @click="storeMnemonic.generate">Generate</button>
         </template>

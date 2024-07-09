@@ -22,7 +22,7 @@ const goTo = (routeName: string): void => {
   if (route.name === routeName) {
     return
   }
-  router.push({name: routeName})
+  router.push({ name: routeName })
 }
 </script>
 
@@ -41,9 +41,9 @@ const goTo = (routeName: string): void => {
       </div>
     </div>
 
-    <div class="bottom" @click="$emit('theme-clicked')">
-      Theme: {{ props.theme }}
-    </div>
+    <footer @click="$emit('theme-clicked')">
+      <span class="material-symbols-rounded" title="Switch Theme">{{ props.theme === 'light' ? 'light' : 'dark' }}_mode</span>
+    </footer>
   </nav>
 </template>
 
@@ -81,7 +81,11 @@ h2 {
   cursor: pointer;
 }
 
-.bottom {
+footer {
   margin: 0 auto;
+}
+
+footer > * {
+  cursor: pointer;
 }
 </style>
