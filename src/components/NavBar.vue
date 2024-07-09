@@ -32,7 +32,7 @@ const goTo = (routeName: string): void => {
       <div class="logo">
         <img src="@/assets/images/seed2.png" alt="logo">
       </div>
-      <h3>Mnemonic</h3>
+      <h2>Mnemo</h2>
       <div v-for="(menuItem, key) in menu" :key="key"
            @click="goTo(key)"
            :class="['menu-item', {active: $route['name'] === key}]"
@@ -69,7 +69,7 @@ img {
   width: 100px;
 }
 
-h3 {
+h2 {
   margin-bottom: var(--gutter);
   text-align: center;
 }

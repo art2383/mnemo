@@ -1,7 +1,14 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useStoreMnemonic } from '@/stores/mnemonic.ts'
 import { storeToRefs } from 'pinia'
 import PadBox from '@/components/PadBox.vue'
+
+type Validation = {
+  fn: Function,
+  title: string,
+  icon: string
+}
 
 const storeMnemonic = useStoreMnemonic()
 const {
@@ -14,6 +21,14 @@ const {
   rootKey,
   derivations
 } = storeToRefs(storeMnemonic)
+
+const validations = computed((): Validation[] => {
+  return [
+    { fn: isCorrectLength.value, title: 'Correct Length', icon: 'width' },
+    { fn: isFromDictionary.value, title: 'From Dictionary', icon: 'dictionary' },
+    { fn: isValidMnemonic.value, title: 'BIP-39 Valid', icon: 'license' }
+  ]
+})
 
 const copy = (text: string): void => {
   navigator.clipboard.writeText(text)
@@ -49,9 +64,16 @@ const copy = (text: string): void => {
         <template #about>Checking length, dictionary and BIP-39 validity</template>
         <template #body>
           <div class="validity">
-            <div>Is <span v-show="!isCorrectLength">NOT</span> correct length</div>
-            <div>Is <span v-show="!isFromDictionary">NOT</span> from dictionary</div>
-            <div>Is <span v-show="!isValidMnemonic">NOT</span> BIP-39 valid</div>
+            <figure v-for="(validation, i) in validations" :key="i" :class="{invalid: !validation.fn}">
+              <div class="icon">
+                <span class="material-symbols-rounded">{{ validation.icon }}</span>
+              </div>
+              <figcaption>
+                <span v-if="validation.fn" class="material-symbols-rounded">check</span>
+                <span v-else class="material-symbols-rounded">close</span>
+                <span>{{ validation.title }}</span>
+              </figcaption>
+            </figure>
           </div>
         </template>
         <template #footer></template>
@@ -106,9 +128,12 @@ const copy = (text: string): void => {
 
       <template v-if="mnemonic">
         <PadBox v-for="(derivation, i) in derivations" :key="derivation.title">
-          <template #drop-cap>{{ i+6 }}</template>
+          <template #drop-cap>{{ i + 6 }}</template>
           <template #heading>{{ derivation.title }}</template>
-          <template #about>BIP-32 derivation for {{ derivation.title }} using BIP-44 path: {{ derivation.path }} </template>
+          <template #about>BIP-32 derivation for {{ derivation.title }} using BIP-44 path: {{
+              derivation.path
+            }}
+          </template>
           <template #body>
             <h3>Public Keys</h3>
             <div class="mono break" v-for="publicKey in derivation.publicKeys" :key="publicKey.slice(0,6)">
@@ -143,7 +168,37 @@ const copy = (text: string): void => {
 
 .validity {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+}
+
+.validity figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.validity figure.invalid * {
+  color: red;
+}
+
+.validity figure .icon {
+  margin-bottom: 10px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: white;
+  display: grid;
+  place-items: center;
+}
+
+.validity figure .icon * {
+  font-size: 3rem;
+}
+
+.validity figcaption {
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
 
 .mnemonic-table {
