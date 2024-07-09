@@ -7,7 +7,7 @@
     <header>
       <div class="drop-cap"><slot name="drop-cap"></slot></div>
       <div class="heading"><slot name="heading"></slot></div>
-      <div class="about"><slot name="about"></slot></div>
+      <small><slot name="about"></slot></small>
     </header>
     <div class="body">
       <slot name="body"></slot>
@@ -23,8 +23,8 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: max-content 1fr max-content;
-  background: #f1f2f5;
-  border: 1px solid #e1e1e3;
+  background: var(--color-pad-bg);
+  border: 1px solid var(--color-pad-border);
   border-radius: var(--radius);
   box-shadow: 0 10px 15px -15px rgba(0,0,0,0.5);
   padding: var(--gutter);
@@ -45,7 +45,7 @@ header .drop-cap {
   width: 50px;
   height: 50px;
   border-radius: 50px;
-  background: var(--color-main);
+  background: var(--color-main-bg);
   font-size: 2.2rem;
   font-weight: 800;
   display: grid;
@@ -55,11 +55,6 @@ header .drop-cap {
 header .heading {
   font-size: 1.2rem;
   font-weight: 600;
-}
-
-header .about {
-  font-size: .8rem;
-  color: var(--color-accent);
 }
 
 footer {

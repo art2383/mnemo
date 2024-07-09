@@ -172,7 +172,7 @@ const validations = computed((): Validation[] => {
 }
 
 .validity figure.invalid * {
-  color: red;
+  color: var(--color-danger);
 }
 
 .validity figure .icon {
@@ -180,7 +180,7 @@ const validations = computed((): Validation[] => {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: white;
+  background: var(--color-main-bg);
   display: grid;
   place-items: center;
 }
@@ -206,7 +206,7 @@ const validations = computed((): Validation[] => {
 .mnemonic-table div {
   margin: 1px;
   padding: 0 5px;
-  border: 1px solid lightblue;
+  border: 1px solid var(--color-pad-border);
 }
 
 .mnemonic-table div.th {

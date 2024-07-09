@@ -50,10 +50,15 @@ const goTo = (routeName: string): void => {
 <style scoped>
 nav {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  background: linear-gradient(to bottom, var(--color-nav-1) 0%, var(--color-nav-2) 100%);
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: var(--gutter);
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+nav * {
+  color: var(--color-nav-font);
 }
 
 .logo {
@@ -61,6 +66,7 @@ nav {
   width: 140px;
   height: 140px;
   border-radius: 50%;
+  background-color: var(--color-main-bg);
   display: grid;
   place-items: center;
 }
@@ -79,6 +85,11 @@ h2 {
   padding: 3px 20px;
   border-radius: var(--radius);
   cursor: pointer;
+}
+
+.menu-item.active {
+  background: var(--color-main-bg);
+  color: var(--color-font)
 }
 
 footer {

@@ -21,6 +21,7 @@ headings:
   padding: 0;
   font-family: 'Poppins', serif;
   font-weight: 400;
+  color: var(--color-font);
 }
 
 html {
@@ -28,10 +29,6 @@ html {
   --navbar-width: 220px;
   --radius: 15px;
   font-size: 14px;
-}
-
-.app {
-  min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -48,13 +45,42 @@ h3 {
   font-weight: 600 !important;
 }
 
+small, .small {
+  font-size: .9rem;
+  color: var(--color-accent);
+}
+
 button {
+  background: var(--color-accent);
   padding: 8px 40px;
-  border: 0;
+  border: 2px solid var(--color-accent);
   border-radius: 8px;
   font-weight: 600;
   outline: 0;
+  color: white;
   cursor: pointer;
+}
+
+button:hover {
+  background: var(--color-accent-hover);
+}
+
+button:active {
+  background: var(--color-accent-active);
+}
+
+button.secondary {
+  border: 2px solid var(--color-accent);
+  background: transparent;
+  color: var(--color-accent);
+}
+
+button.secondary:hover {
+  background: var(--color-secondary-hover);
+}
+
+button.secondary:active {
+  background: var(--color-secondary-active);
 }
 
 .mono, .mono * {

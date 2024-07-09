@@ -10,7 +10,7 @@ const toggleTheme = () => {
 </script>
 
 <template>
-  <div :class="['app', 'theme-'+theme]">
+  <div class="app" :class="'theme-'+theme">
     <NavBar :theme="theme" @theme-clicked="toggleTheme" />
     <main>
       <RouterView/>
@@ -20,7 +20,8 @@ const toggleTheme = () => {
 
 <style scoped>
 .app {
-  background-color: var(--color-main);
+  min-height: 100vh;
+  background-color: var(--color-main-bg);
 }
 
 nav {
