@@ -1,8 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 
-const theme = ref('light')
+const theme = ref('')
+
+onMounted(() => {
+  theme.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light'
+})
 
 const toggleTheme = () => {
   theme.value = theme.value === 'light' ? 'dark' : 'light'
