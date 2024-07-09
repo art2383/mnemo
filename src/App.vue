@@ -1,23 +1,26 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 
 const theme = ref('')
 
+const setTheme = (title: string): void => {
+  theme.value = title
+  document.body.className = title
+}
+
 onMounted(() => {
-  theme.value = window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light'
+    setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
 })
 
 const toggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
+  setTheme(theme.value === 'light' ? 'dark' : 'light')
 }
 </script>
 
 <template>
   <div class="app" :class="'theme-'+theme">
-    <NavBar :theme="theme" @theme-clicked="toggleTheme" />
+    <NavBar :theme="theme" @theme-clicked="toggleTheme"/>
     <main>
       <RouterView/>
     </main>
@@ -32,7 +35,8 @@ const toggleTheme = () => {
 
 nav {
   position: fixed;
-  left: 0; top: 0;
+  left: 0;
+  top: 0;
   z-index: 10;
   height: 100vh;
   width: var(--navbar-width);
