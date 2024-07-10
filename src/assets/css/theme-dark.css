@@ -2,10 +2,11 @@
     --color-main-bg: #1e1e1e;
     --color-font: #cacacc;
     --color-danger: #ab2460;
+    --color-border: #303030;
 
     --color-nav-1: #303030;
-    --color-nav-2: #303030;
-    --color-nav-font: #d8e1f3;
+    --color-nav-2: #393939;
+    --color-nav-font: #d8e1f3; /* same for both themes */
 
     --color-accent: #03856c;
     --color-accent-hover: #039479;
@@ -15,5 +16,4 @@
     --color-secondary-active: #222222;
 
     --color-pad-bg: #262626;
-    --color-pad-border: #303030;
 }

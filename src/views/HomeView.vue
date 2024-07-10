@@ -39,4 +39,10 @@ import PadBox from '@/components/PadBox.vue'
 .pad-box {
   width: 50%;
 }
+
+@media(max-width: 1200px) {
+  .pad-box {
+    width: 100%;
+  }
+}
 </style>

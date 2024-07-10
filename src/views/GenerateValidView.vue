@@ -85,7 +85,7 @@ const validations = computed((): Validation[] => {
         <template #footer></template>
       </PadBox>
 
-      <PadBox class="pad3" v-if="mnemonic">
+      <PadBox class="pad4" v-if="mnemonic">
         <template #drop-cap>4</template>
         <template #heading>Words Table</template>
         <template #about>Index in BIP-39 dictionary with dec and hex representation</template>
@@ -163,10 +163,6 @@ const validations = computed((): Validation[] => {
   place-items: stretch;
 }
 
-.pad3 {
-  grid-column: 1/4;
-}
-
 .buttons button {
   margin-right: var(--gutter);
 }
@@ -210,6 +206,10 @@ const validations = computed((): Validation[] => {
   width: 100%;
 }
 
+.pad4 {
+  grid-column: 1/4;
+}
+
 .mnemonic-table {
   display: grid;
   grid-template-columns: repeat(13, 1fr);
@@ -221,18 +221,33 @@ const validations = computed((): Validation[] => {
 .mnemonic-table div {
   margin: 1px;
   padding: 0 5px;
-  border: 1px solid var(--color-pad-border);
+  border: 1px solid var(--color-border);
 }
 
 .mnemonic-table div.th {
   font-weight: 600;
 }
 
-
 /* modifiers */
-.mnemonic-table--ver {
-  grid-template-columns: repeat(4, 100px);
-  grid-template-rows: repeat(13, min-content);
-  grid-auto-flow: column;
+/*.mnemonic-table--ver {*/
+/*  grid-template-columns: repeat(4, 100px);*/
+/*  grid-template-rows: repeat(13, min-content);*/
+/*  grid-auto-flow: column;*/
+/*}*/
+
+@media(max-width: 1200px) {
+  .pads-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pad4 {
+    grid-column: 1/2;
+  }
+
+  .mnemonic-table {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(13, min-content);
+    grid-auto-flow: column;
+  }
 }
 </style>

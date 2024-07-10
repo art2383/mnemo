@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 
 </script>
 
@@ -24,7 +24,7 @@
   grid-template-columns: 1fr;
   grid-template-rows: max-content 1fr max-content;
   background: var(--color-pad-bg);
-  border: 1px solid var(--color-pad-border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   box-shadow: 0 10px 15px -15px rgba(0,0,0,0.5);
   padding: var(--gutter);
@@ -59,10 +59,11 @@ header .heading {
 
 footer {
   margin: var(--gutter) 0 0 0;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
 }
 
-:deep(button) { /* most of the time the html passed into this component via slot from a parent will contain buttons */
+:deep(button:not(:first-child)) { /* most of the time the html passed into this component via slot from a parent will contain buttons */
   margin-left: var(--gutter);
 }
 
