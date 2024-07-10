@@ -4,6 +4,7 @@ import { useStoreMnemonic } from '@/stores/mnemonic.ts'
 import { storeToRefs } from 'pinia'
 import PadBox from '@/components/PadBox.vue'
 import CopyIcon from '@/components/CopyIcon.vue'
+import ShortenedText from '@/components/ShortenedText.vue'
 
 type Validation = {
   fn: Function,
@@ -118,7 +119,7 @@ const validations = computed((): Validation[] => {
       <PadBox v-if="mnemonic">
         <template #drop-cap>6</template>
         <template #heading>Root Keys</template>
-        <template #about>BIP-32: root public and private keys derived from the seed</template>
+        <template #about>BIP-32: root private and public keys derived from the seed</template>
         <template #body>
           <h3>Private Key</h3>
           <div class="mono break">
@@ -141,7 +142,7 @@ const validations = computed((): Validation[] => {
           <template #body>
             <h3>Public Keys</h3>
             <div class="mono break" v-for="publicKey in derivation.publicKeys" :key="publicKey.slice(0,6)">
-              - {{ publicKey }}
+              - <ShortenedText :text="publicKey" />
             </div>
             <h3>Addresses</h3>
             <div class="mono break" v-for="address in derivation.addresses" :key="address.slice(0,6)">
