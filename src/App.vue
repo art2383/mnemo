@@ -106,4 +106,10 @@ nav {
     transform: translateX(0%);
   }
 }
+
+@media(min-width: 2000px) {
+  main {
+    width: 2500px;
+  }
+}
 </style>
