@@ -14,6 +14,7 @@ type Validation = {
 const storeMnemonic = useStoreMnemonic()
 const {
   mnemonic,
+  passphrase,
   mnemonicWords,
   isCorrectLength,
   isFromDictionary,
@@ -73,8 +74,18 @@ const validations = computed((): Validation[] => {
         <template #footer></template>
       </PadBox>
 
-      <PadBox class="pad3" v-if="mnemonic">
+      <PadBox v-if="mnemonic" class="passphrase">
         <template #drop-cap>3</template>
+        <template #heading>Passphrase, optional</template>
+        <template #about>To add a layer of security (also BIP-39)</template>
+        <template #body>
+          <input type="text" v-model="passphrase" placeholder="Your passphrase">
+        </template>
+        <template #footer></template>
+      </PadBox>
+
+      <PadBox class="pad3" v-if="mnemonic">
+        <template #drop-cap>4</template>
         <template #heading>Words Table</template>
         <template #about>Index in BIP-39 dictionary with dec and hex representation</template>
         <template #body>
@@ -93,9 +104,9 @@ const validations = computed((): Validation[] => {
       </PadBox>
 
       <PadBox v-if="mnemonic">
-        <template #drop-cap>4</template>
+        <template #drop-cap>5</template>
         <template #heading>Seed</template>
-        <template #about>Still BIP-39, a binary representation of a mnemonic, displayed in hex</template>
+        <template #about>Still BIP-39: binary seed displayed in hex</template>
         <template #body>
           <div class="mono break">
             {{ seed.seedString }}
@@ -105,9 +116,9 @@ const validations = computed((): Validation[] => {
       </PadBox>
 
       <PadBox v-if="mnemonic">
-        <template #drop-cap>5</template>
+        <template #drop-cap>6</template>
         <template #heading>Root Keys</template>
-        <template #about>Root public and private keys derived from the seed according to BIP-32</template>
+        <template #about>BIP-32: root public and private keys derived from the seed</template>
         <template #body>
           <h3>Private Key</h3>
           <div class="mono break">
@@ -122,11 +133,10 @@ const validations = computed((): Validation[] => {
 
       <template v-if="mnemonic">
         <PadBox v-for="(derivation, i) in derivations" :key="derivation.title">
-          <template #drop-cap>{{ i + 6 }}</template>
+          <template #drop-cap>{{ i + 7 }}</template>
           <template #heading>{{ derivation.title }}</template>
-          <template #about>BIP-32 derivation for {{ derivation.title }} using BIP-44 path: {{
-              derivation.path
-            }}
+          <template #about>
+            BIP-32 derivation for {{ derivation.title }} using BIP-44 path: {{ derivation.path}}
           </template>
           <template #body>
             <h3>Public Keys</h3>
@@ -147,13 +157,13 @@ const validations = computed((): Validation[] => {
 <style scoped>
 .pads-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: var(--gutter);
   place-items: stretch;
 }
 
 .pad3 {
-  grid-column: 1/3;
+  grid-column: 1/4;
 }
 
 .buttons button {
@@ -193,6 +203,10 @@ const validations = computed((): Validation[] => {
   display: flex;
   justify-content: start;
   align-items: center;
+}
+
+.passphrase input {
+  width: 100%;
 }
 
 .mnemonic-table {

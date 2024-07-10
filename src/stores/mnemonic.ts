@@ -22,6 +22,7 @@ const moduleSetup = () => {
   const q = 3 // not reactive, no need
 
   const mnemonic = ref('')
+  const passphrase = ref('')
 
   const words = computed((): string[] => {
     return mnemonic.value.split(' ')
@@ -54,7 +55,7 @@ const moduleSetup = () => {
   })
 
   const seed = computed((): Seed => {
-    const seedBuffer: Buffer = mnemonicToSeedSync(mnemonic.value)
+    const seedBuffer: Buffer = mnemonicToSeedSync(mnemonic.value, passphrase.value)
     const seedString: string = seedBuffer.toString('hex')
     return { seedBuffer, seedString }
   })
@@ -94,7 +95,7 @@ const moduleSetup = () => {
   }
 
   return {
-    mnemonic,
+    mnemonic, passphrase,
     mnemonicWords, isCorrectLength, isFromDictionary, isValidMnemonic, seed, rootKey, derivations,
     generate, clear
   }
