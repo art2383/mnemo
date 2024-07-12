@@ -79,6 +79,18 @@ const validations = computed((): Validation[] => {
         </template>
       </PadBox>
 
+      <PadBox v-else-if="route.params.type === 'input'">
+        <template #drop-cap>1</template>
+        <template #heading>Input</template>
+        <template #about>Your own mnemonic phrase</template>
+        <template #body>
+          <textarea v-model="mnemonic">asd</textarea>
+        </template>
+        <template #footer>
+          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">Clear</button>
+        </template>
+      </PadBox>
+
       <PadBox v-if="mnemonic">
         <template #drop-cap>2</template>
         <template #heading>Validity</template>
@@ -193,8 +205,8 @@ h1 {
   place-items: stretch;
 }
 
-.buttons button {
-  margin-right: var(--gutter);
+textarea {
+  width: 100%;
 }
 
 .validity {

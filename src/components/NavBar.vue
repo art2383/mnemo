@@ -39,6 +39,15 @@ const menu = [
         type: 'invalid'
       }
     }
+  },
+  {
+    title: 'Input Mnemonic',
+    routeObject: {
+      name: 'seed',
+      params: {
+        type: 'input'
+      }
+    }
   }
 ]
 
