@@ -99,6 +99,7 @@ const moduleSetup = () => {
 
   const clear = (): void => {
     mnemonic.value = ''
+    passphrase.value = ''
   }
 
   return {

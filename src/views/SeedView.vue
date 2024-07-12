@@ -49,27 +49,33 @@ const validations = computed((): Validation[] => {
     <h1>{{ route.params.type }} Mnemonic</h1>
 
     <div class="pads-grid">
-      <PadBox>
+      <PadBox v-if="route.params.type === 'valid'">
         <template #drop-cap>1</template>
         <template #heading>Generate</template>
-        <template #about>Via BIP-39 standard generation method</template>
+        <template #about>BIP-39 standard: 11 random words + checksum word</template>
         <template #body>
           <div v-if="mnemonic">
             {{ mnemonic }}&#32;<CopyIcon :text="mnemonic"/>
           </div>
-          <div v-else>
-            <div v-if="route.params.type === 'valid'">
-              BIP-39 valid mnemonic will be accepted in all wallets, but the last word is a checksum, not a random word
-            </div>
-            <div v-else-if="route.params.type === 'invalid'">
-              Invalid mnemonic has all 12 words random, without a checksum, and can be used with Electrum
-            </div>
+        </template>
+        <template #footer>
+          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">Clear</button>
+          <button @click="generate">Generate Valid</button>
+        </template>
+      </PadBox>
+
+      <PadBox v-else-if="route.params.type === 'invalid'">
+        <template #drop-cap>1</template>
+        <template #heading>Generate</template>
+        <template #about>BIP-39 dictionary: 12 random words</template>
+        <template #body>
+          <div v-if="mnemonic">
+            {{ mnemonic }}&#32;<CopyIcon :text="mnemonic"/>
           </div>
         </template>
         <template #footer>
           <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">Clear</button>
-          <button v-if="route.params.type === 'valid'" @click="generate">Generate Valid</button>
-          <button v-else-if="route.params.type === 'invalid'" @click="generateInvalid">Generate Invalid</button>
+          <button @click="generateInvalid">Generate Invalid</button>
         </template>
       </PadBox>
 
