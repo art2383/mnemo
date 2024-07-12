@@ -42,6 +42,17 @@ const validations = computed((): Validation[] => {
     { fn: isValidMnemonic.value, title: 'BIP-39 Valid', icon: 'license' }
   ]
 })
+
+const copy = (text: string) => {
+  navigator.clipboard.writeText(text)
+}
+
+const paste = () => {
+  navigator.clipboard.readText()
+    .then(res => {
+      mnemonic.value = res
+    })
+}
 </script>
 
 <template>
@@ -88,6 +99,8 @@ const validations = computed((): Validation[] => {
         </template>
         <template #footer>
           <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">Clear</button>
+          <button v-show="mnemonic" class="secondary" @click="copy(mnemonic)">Copy</button>
+          <button @click="paste">Paste</button>
         </template>
       </PadBox>
 
@@ -207,6 +220,7 @@ h1 {
 
 textarea {
   width: 100%;
+  height: 100px; /* to match the validity pad */
 }
 
 .validity {
