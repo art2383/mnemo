@@ -1,10 +1,15 @@
+// import { vi } from 'vitest'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import GenerateValidView from '@/views/GenerateValidView.vue'
+import SeedView from '@/views/SeedView.vue'
 
 import { createPinia, setActivePinia } from 'pinia'
 
-describe('GenerateValidView Component', () => {
+// vi.mock('vue-router', () => ({
+//   resolve: vi.fn(),
+// }))
+
+describe('SeedView Component', () => {
   let pinia
 
   beforeEach(() => {
@@ -13,7 +18,7 @@ describe('GenerateValidView Component', () => {
   })
 
   it('renders properly', () => {
-    const wrapper = mount(GenerateValidView, {
+    const wrapper = mount(SeedView, {
       global: {
         plugins: [pinia],
       }

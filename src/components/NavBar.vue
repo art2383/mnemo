@@ -14,18 +14,43 @@ const props = withDefaults(defineProps<Props>(), {
 const router = useRouter()
 const route = useRoute()
 
-const menu: object = { // not wrapped in ref, because it doesn't seem necessary, it is a constant, not something reactive
-  home: 'Home',
-  generateValid: 'Generate Valid',
-  generateInvalid: 'Generate Invalid'
+const menu = [
+  {
+    title: 'Home',
+    routeObject: {
+      name: 'home',
+      params: {} // for checking if menu is active
+    }
+  },
+  {
+    title: 'Valid Mnemonic',
+    routeObject: {
+      name: 'seed',
+      params: {
+        type: 'valid'
+      }
+    }
+  },
+  {
+    title: 'Invalid Mnemonic',
+    routeObject: {
+      name: 'seed',
+      params: {
+        type: 'invalid'
+      }
+    }
+  }
+]
+
+const isMenuItemActive = (menuItem): boolean => {
+  const stringOfMenuItem = JSON.stringify(menuItem.routeObject)
+  const stringOfCurrentRoute = JSON.stringify({ name: route.name, params: route.params })
+  return stringOfMenuItem === stringOfCurrentRoute
 }
 
-const goTo = (routeName: string): void => {
-  if (route.name === routeName) {
-    return
-  }
+const goTo = (routeObject: object): void => {
   emit('menu-item-clicked')
-  router.push({ name: routeName })
+  router.push(routeObject)
 }
 </script>
 
@@ -40,11 +65,12 @@ const goTo = (routeName: string): void => {
         <img src="@/assets/images/seed2.png" alt="logo">
       </div>
       <h2>Mnemo</h2>
-      <div v-for="(menuItem, key) in menu" :key="key"
-           @click="goTo(key)"
-           :class="['menu-item', {active: $route['name'] === key}]"
+      <div v-for="(menuItem, i) in menu" :key="i"
+           @click="goTo(menuItem.routeObject)"
+           class="menu-item"
+           :class="{active: isMenuItemActive(menuItem)}"
       >
-        {{ menuItem }}
+        {{ menuItem.title }}
       </div>
     </div>
 
@@ -116,7 +142,7 @@ footer > * {
   cursor: pointer;
 }
 
-@media(max-width: 1200px) {
+@media (max-width: 1200px) {
   .close {
     position: fixed;
     top: 0;

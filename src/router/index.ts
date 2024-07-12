@@ -7,14 +7,9 @@ const routes: {path: string, name: string, component: Function}[] = [
     component: () => import('@/views/HomeView.vue')
   },
   {
-    path: '/generate-valid',
-    name: 'generateValid',
-    component: () => import('@/views/GenerateValidView.vue'),
-  },
-  {
-    path: '/generate-invalid',
-    name: 'generateInvalid',
-    component: () => import('@/views/GenerateInvalidView.vue'),
+    path: '/seed/:type',
+    name: 'seed',
+    component: () => import('@/views/SeedView.vue'),
   }
 ]
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useStoreMnemonic } from '@/stores/mnemonic.ts'
 import { storeToRefs } from 'pinia'
 import PadBox from '@/components/PadBox.vue'
@@ -12,6 +13,7 @@ type Validation = {
   icon: string
 }
 
+const route = useRoute()
 const storeMnemonic = useStoreMnemonic()
 const {
   mnemonic,
@@ -25,6 +27,14 @@ const {
   derivations
 } = storeToRefs(storeMnemonic)
 
+const { clear, generate, generateInvalid } = useStoreMnemonic()
+
+watch(() => route.params.type, (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    clear()
+  }
+})
+
 const validations = computed((): Validation[] => {
   return [
     { fn: isCorrectLength.value, title: 'Correct Length', icon: 'width' },
@@ -36,21 +46,30 @@ const validations = computed((): Validation[] => {
 
 <template>
   <div class="generate-valid-view">
-    <h1>Generate Valid Mnemonic</h1>
+    <h1>{{ route.params.type }} Mnemonic</h1>
 
     <div class="pads-grid">
       <PadBox>
         <template #drop-cap>1</template>
-        <template #heading>Generate Mnemonic</template>
+        <template #heading>Generate</template>
         <template #about>Via BIP-39 standard generation method</template>
         <template #body>
-          <div class="mnemonic" v-if="mnemonic">{{ mnemonic }}&#32;<CopyIcon :text="mnemonic" />
+          <div v-if="mnemonic">
+            {{ mnemonic }}&#32;<CopyIcon :text="mnemonic"/>
           </div>
-          <div v-else>BIP-39 valid mnemonic will be accepted in all wallets, but the last word is not random but is a checksum</div>
+          <div v-else>
+            <div v-if="route.params.type === 'valid'">
+              BIP-39 valid mnemonic will be accepted in all wallets, but the last word is a checksum, not a random word
+            </div>
+            <div v-else-if="route.params.type === 'invalid'">
+              Invalid mnemonic has all 12 words random, without a checksum, and can be used with Electrum
+            </div>
+          </div>
         </template>
         <template #footer>
           <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">Clear</button>
-          <button @click="storeMnemonic.generate">Generate</button>
+          <button v-if="route.params.type === 'valid'" @click="generate">Generate Valid</button>
+          <button v-else-if="route.params.type === 'invalid'" @click="generateInvalid">Generate Invalid</button>
         </template>
       </PadBox>
 
@@ -67,7 +86,7 @@ const validations = computed((): Validation[] => {
               <figcaption>
                 <span v-if="validation.fn" class="material-symbols-rounded">check</span>
                 <span v-else class="material-symbols-rounded">close</span>
-                <span>{{ validation.title }}</span>
+                <span class="nowrap">{{ validation.title }}</span>
               </figcaption>
             </figure>
           </div>
@@ -137,12 +156,13 @@ const validations = computed((): Validation[] => {
           <template #drop-cap>{{ i + 7 }}</template>
           <template #heading>{{ derivation.title }}</template>
           <template #about>
-            BIP-32 derivation for {{ derivation.title }} using BIP-44 path: {{ derivation.path}}
+            BIP-32 derivation for {{ derivation.title }} using BIP-44 path: {{ derivation.path }}
           </template>
           <template #body>
             <h3>Public Keys</h3>
             <div class="mono break" v-for="publicKey in derivation.publicKeys" :key="publicKey.slice(0,6)">
-              - <ShortenedText :text="publicKey" />
+              -
+              <ShortenedText :text="publicKey"/>
             </div>
             <h3>Addresses</h3>
             <div class="mono break" v-for="address in derivation.addresses" :key="address.slice(0,6)">
@@ -156,6 +176,10 @@ const validations = computed((): Validation[] => {
 </template>
 
 <style scoped>
+h1 {
+  text-transform: capitalize;
+}
+
 .pads-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -235,7 +259,7 @@ const validations = computed((): Validation[] => {
 /*  grid-auto-flow: column;*/
 /*}*/
 
-@media(max-width: 1200px) {
+@media (max-width: 1200px) {
   .pads-grid {
     grid-template-columns: 1fr;
   }

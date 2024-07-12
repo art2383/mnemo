@@ -90,6 +90,13 @@ const moduleSetup = () => {
     mnemonic.value = generateMnemonic()
   }
 
+  const generateInvalid = (): void => {
+    const words: string[] = generateMnemonic().split(' ')
+    words.pop()
+    const lastWord = generateMnemonic().split(' ')[0]
+    mnemonic.value = [... words, lastWord].join(' ')
+  }
+
   const clear = (): void => {
     mnemonic.value = ''
   }
@@ -97,7 +104,7 @@ const moduleSetup = () => {
   return {
     mnemonic, passphrase,
     mnemonicWords, isCorrectLength, isFromDictionary, isValidMnemonic, seed, rootKey, derivations,
-    generate, clear
+    generate, clear, generateInvalid
   }
 }
 
