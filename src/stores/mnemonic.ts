@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { generateMnemonic, validateMnemonic, mnemonicToSeedSync, wordlists } from 'bip39'
 import { HDKey } from '@scure/bip32' // regular bip32 library has dependencies, this one doesn't, and this one is easier implemented
-import { publicKeyToBitcoinAddress, uint8ArrayToHex } from '@/common/helpers'
+import { uint8ArrayToHex } from '@/common/helpers'
 import { derivationConfig } from '@/common/derivation-config'
 
 type MnemonicWordsArray = {
@@ -16,16 +16,41 @@ type Seed = {
   seedString: string
 }
 
-const wordList: string[] = wordlists.english
-
 const moduleSetup = () => {
-  const q = 3 // not reactive, no need
-
+  const q = 3
   const mnemonic = ref('')
   const passphrase = ref('')
 
+  const generate = (): void => {
+    mnemonic.value = generateMnemonic()
+  }
+
+  const generateInvalid = (): void => {
+    const words: string[] = generateMnemonic().split(' ')
+    words.pop()
+    const lastWord = generateMnemonic().split(' ')[0]
+    mnemonic.value = [... words, lastWord].join(' ')
+  }
+
+  const clear = (): void => {
+    mnemonic.value = ''
+    passphrase.value = ''
+  }
+
   const words = computed((): string[] => {
     return mnemonic.value.split(' ')
+  })
+
+  const isCorrectLength = computed((): boolean => {
+    return [12, 15, 18, 21, 24].includes(words.value.length)
+  })
+
+  const isFromDictionary = computed((): boolean => {
+    return words.value.every(w => wordlists.english.includes(w))
+  })
+
+  const isValidMnemonic = computed((): boolean => {
+    return validateMnemonic(mnemonic.value)
   })
 
   const mnemonicWords = computed((): MnemonicWordsArray => {
@@ -35,23 +60,11 @@ const moduleSetup = () => {
       return result
     }
     words.value.forEach((word: string) => {
-      const line: number = wordList.findIndex(w => w === word) + 1
+      const line: number = wordlists.english.findIndex(w => w === word) + 1
       const hex: string = line.toString(16)
       result.push({ word, line, hex })
     })
     return result
-  })
-
-  const isCorrectLength = computed((): boolean => {
-    return [12, 15, 18, 21, 24].includes(words.value.length)
-  })
-
-  const isFromDictionary = computed((): boolean => {
-    return words.value.every(w => wordList.includes(w))
-  })
-
-  const isValidMnemonic = computed((): boolean => {
-    return validateMnemonic(mnemonic.value)
   })
 
   const seed = computed((): Seed => {
@@ -85,22 +98,6 @@ const moduleSetup = () => {
     })
     return result
   })
-
-  const generate = (): void => {
-    mnemonic.value = generateMnemonic()
-  }
-
-  const generateInvalid = (): void => {
-    const words: string[] = generateMnemonic().split(' ')
-    words.pop()
-    const lastWord = generateMnemonic().split(' ')[0]
-    mnemonic.value = [... words, lastWord].join(' ')
-  }
-
-  const clear = (): void => {
-    mnemonic.value = ''
-    passphrase.value = ''
-  }
 
   return {
     mnemonic, passphrase,
