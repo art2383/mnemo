@@ -6,6 +6,7 @@ import { storeToRefs } from 'pinia'
 import PadBox from '@/components/PadBox.vue'
 import CopyIcon from '@/components/CopyIcon.vue'
 import ShortenedText from '@/components/ShortenedText.vue'
+import WordsTable from '@/components/WordsTable.vue'
 
 type Validation = {
   fn: Function,
@@ -18,7 +19,6 @@ const storeMnemonic = useStoreMnemonic()
 const {
   mnemonic,
   passphrase,
-  mnemonicWords,
   isCorrectLength,
   isFromDictionary,
   isValidMnemonic,
@@ -140,16 +140,7 @@ const paste = () => {
         <template #heading>Words Table</template>
         <template #about>Index in BIP-39 dictionary with dec and hex representation</template>
         <template #body>
-          <div class="mnemonic-table">
-            <div class="th">#</div>
-            <div v-for="n in 12" :key="n">{{ n }}</div>
-            <div class="th">Word</div>
-            <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.word }}</div>
-            <div class="th">Line</div>
-            <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.line }}</div>
-            <div class="th">Hex</div>
-            <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.hex }}</div>
-          </div>
+          <WordsTable />
         </template>
         <template #footer></template>
       </PadBox>
@@ -266,31 +257,6 @@ textarea {
   grid-column: 1/4;
 }
 
-.mnemonic-table {
-  display: grid;
-  grid-template-columns: repeat(13, 1fr);
-  grid-template-rows: repeat(4, min-content);
-  grid-auto-flow: row;
-  gap: 0;
-}
-
-.mnemonic-table div {
-  margin: 1px;
-  padding: 0 5px;
-  border: 1px solid var(--color-border);
-}
-
-.mnemonic-table div.th {
-  font-weight: 600;
-}
-
-/* modifiers */
-/*.mnemonic-table--ver {*/
-/*  grid-template-columns: repeat(4, 100px);*/
-/*  grid-template-rows: repeat(13, min-content);*/
-/*  grid-auto-flow: column;*/
-/*}*/
-
 @media (max-width: 1200px) {
   .pads-grid {
     grid-template-columns: 1fr;
@@ -298,12 +264,6 @@ textarea {
 
   .pad4 {
     grid-column: 1/2;
-  }
-
-  .mnemonic-table {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(13, min-content);
-    grid-auto-flow: column;
   }
 }
 </style>
