@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+
+const { locale, availableLocales } = useI18n()
 
 type Props = {
   theme: string
@@ -61,6 +64,12 @@ const goTo = (routeObject: object): void => {
   emit('menu-item-clicked')
   router.push(routeObject)
 }
+
+const toggleLang = ():void => {
+  const currentIndex = availableLocales.indexOf(locale.value)
+  const nextIndex = (currentIndex + 1) % availableLocales.length
+  locale.value = availableLocales[nextIndex]
+}
 </script>
 
 <template>
@@ -74,19 +83,20 @@ const goTo = (routeObject: object): void => {
         <img src="@/assets/images/seed2.png" alt="logo">
       </div>
       <h2>Mnemo</h2>
-      <div v-for="(menuItem, i) in menu" :key="i"
+      <h3 v-for="(menuItem, i) in menu" :key="i"
            @click="goTo(menuItem.routeObject)"
            class="menu-item"
            :class="{active: isMenuItemActive(menuItem)}"
       >
         {{ menuItem.title }}
-      </div>
+      </h3>
     </div>
 
-    <footer @click="$emit('theme-clicked')">
-      <span class="material-symbols-rounded" title="Switch Theme">
+    <footer>
+      <span class="material-symbols-rounded" title="Switch Theme" @click="$emit('theme-clicked')">
         {{ props.theme === 'light' ? 'light' : 'dark' }}_mode
       </span>
+      <span class="lang" title="Switch Language" @click="toggleLang">{{ $i18n.locale.toUpperCase() }}</span>
     </footer>
   </nav>
 </template>
@@ -145,10 +155,17 @@ h2 {
 
 footer {
   margin: 0 auto;
+  display: flex;
+  align-items: center;
 }
 
 footer > * {
   cursor: pointer;
+}
+
+footer .lang {
+  margin-left: var(--gutter);
+  font-weight: 600;
 }
 
 @media (max-width: 1200px) {

@@ -5,7 +5,7 @@ import PadBox from '@/components/PadBox.vue'
 <template>
   <div class="home-view">
     <div class="intro">
-      <h1>Home</h1>
+      <h1>{{ $t('home.h1') }}</h1>
       <h2>Things you can do here:</h2>
       <p>- Create valid BIP-39 mnemonic</p>
       <p>- Create alternative (invalid) mnemonic</p>
