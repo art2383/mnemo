@@ -106,4 +106,4 @@ const moduleSetup = () => {
   }
 }
 
-export const useStoreMnemonic = defineStore('mnemonic', moduleSetup)
+export const useMnemonicStore = defineStore('mnemonic', moduleSetup)

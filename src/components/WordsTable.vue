@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useStoreMnemonic } from '@/stores/mnemonic'
+import { useMnemonicStore } from '@/stores/mnemonic'
 
-const storeMnemonic = useStoreMnemonic()
+const storeMnemonic = useMnemonicStore()
 
 const { mnemonicWords } = storeToRefs(storeMnemonic)
 </script>

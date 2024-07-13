@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { useStoreMnemonic } from '@/stores/mnemonic.ts'
+import { useMnemonicStore } from '@/stores/mnemonic.ts'
 import { storeToRefs } from 'pinia'
 import PadBox from '@/components/PadBox.vue'
 import CopyIcon from '@/components/CopyIcon.vue'
@@ -15,7 +15,7 @@ type Validation = {
 }
 
 const route = useRoute()
-const storeMnemonic = useStoreMnemonic()
+const storeMnemonic = useMnemonicStore()
 const {
   mnemonic,
   passphrase,
@@ -27,7 +27,7 @@ const {
   derivations
 } = storeToRefs(storeMnemonic)
 
-const { clear, generate, generateInvalid } = useStoreMnemonic()
+const { clear, generate, generateInvalid } = useMnemonicStore()
 
 watch(() => route.params.type, (newVal, oldVal) => {
   if (newVal !== oldVal) {
