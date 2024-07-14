@@ -3,6 +3,16 @@ import { storeToRefs } from 'pinia'
 import { useRouter, useRoute } from 'vue-router'
 import { useGeneralStore } from '@/stores/general.ts'
 
+type MenuItem = {
+  title: string,
+  routeObject: {
+    name: string,
+    params: {
+      type?: string
+    }
+  }
+}
+
 const generalStore = useGeneralStore()
 const { theme } = storeToRefs(generalStore)
 const { switchLang, toggleTheme } = generalStore
@@ -12,12 +22,12 @@ const emit = defineEmits(['menu-item-clicked', 'x-clicked'])
 const router = useRouter()
 const route = useRoute()
 
-const menu = [
+const menu: MenuItem[] = [
   {
     title: 'Home',
     routeObject: {
       name: 'home',
-      params: {} // for checking if menu is active
+      params: {} // for checking if menu is active, consistency and TS validation
     }
   },
   {
@@ -49,7 +59,7 @@ const menu = [
   }
 ]
 
-const isMenuItemActive = (menuItem): boolean => {
+const isMenuItemActive = (menuItem: MenuItem): boolean => {
   const stringOfMenuItem = JSON.stringify(menuItem.routeObject)
   const stringOfCurrentRoute = JSON.stringify({ name: route.name, params: route.params })
   return stringOfMenuItem === stringOfCurrentRoute
