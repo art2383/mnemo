@@ -1,29 +1,24 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import NavBar from '@/components/NavBar.vue'
+import { useGeneralStore } from '@/stores/general.ts'
 
-const theme = ref('')
+const generalStore = useGeneralStore()
+const { theme} = storeToRefs(generalStore )
+const { appInit } = generalStore
 const menuShown = ref(false)
 
-const setTheme = (title: string): void => {
-  theme.value = title
-  document.body.className = title
-}
-
 onMounted(() => {
-    setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+  appInit()
 })
-
-const toggleTheme = () => {
-  setTheme(theme.value === 'light' ? 'dark' : 'light')
-}
 </script>
 
 <template>
   <div class="app" :class="'theme-'+theme">
     <div class="top-bar">
       <div class="logo">
-        <img src="@/assets/images/seed2.png" alt="logo">
+        <router-link to="/"><img src="@/assets/images/seed2.png" alt="logo"></router-link>
       </div>
       <h2>Mnemo</h2>
       <span class="material-symbols-rounded hamburger" @click="menuShown = true">menu</span>
@@ -33,10 +28,7 @@ const toggleTheme = () => {
       <RouterView/>
     </main>
 
-    <NavBar :theme="theme" @theme-clicked="toggleTheme" :class="{visible: menuShown}"
-            @x-clicked="menuShown = false"
-            @menu-item-clicked="menuShown = false"
-    />
+    <NavBar :class="{visible: menuShown}" @x-clicked="menuShown = false" @menu-item-clicked="menuShown = false"/>
   </div>
 </template>
 
@@ -68,7 +60,7 @@ nav {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-@media(max-width: 1200px) {
+@media (max-width: 1200px) {
   .top-bar {
     display: flex;
     justify-content: space-between;
@@ -84,6 +76,7 @@ nav {
     background-color: var(--color-main-bg);
     display: grid;
     place-items: center;
+    cursor: pointer;
   }
 
   .top-bar .logo img {
@@ -107,7 +100,7 @@ nav {
   }
 }
 
-@media(min-width: 2000px) {
+@media (min-width: 2000px) {
   main {
     width: 2500px;
   }

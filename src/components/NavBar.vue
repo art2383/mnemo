@@ -1,18 +1,13 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useRouter, useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import { useGeneralStore } from '@/stores/general.ts'
 
-const { locale, availableLocales } = useI18n()
-
-type Props = {
-  theme: string
-}
+const generalStore = useGeneralStore()
+const { theme } = storeToRefs(generalStore)
+const { switchLang, toggleTheme } = generalStore
 
 const emit = defineEmits(['menu-item-clicked', 'x-clicked'])
-
-const props = withDefaults(defineProps<Props>(), {
-  theme: 'light'
-})
 
 const router = useRouter()
 const route = useRoute()
@@ -64,12 +59,6 @@ const goTo = (routeObject: object): void => {
   emit('menu-item-clicked')
   router.push(routeObject)
 }
-
-const toggleLang = ():void => {
-  const currentIndex = availableLocales.indexOf(locale.value)
-  const nextIndex = (currentIndex + 1) % availableLocales.length
-  locale.value = availableLocales[nextIndex]
-}
 </script>
 
 <template>
@@ -80,23 +69,23 @@ const toggleLang = ():void => {
 
     <div class="top">
       <div class="logo">
-        <img src="@/assets/images/seed2.png" alt="logo">
+        <router-link to="/"><img src="@/assets/images/seed2.png" alt="logo"></router-link>
       </div>
       <h2>Mnemo</h2>
       <h3 v-for="(menuItem, i) in menu" :key="i"
-           @click="goTo(menuItem.routeObject)"
-           class="menu-item"
-           :class="{active: isMenuItemActive(menuItem)}"
+          @click="goTo(menuItem.routeObject)"
+          class="menu-item"
+          :class="{active: isMenuItemActive(menuItem)}"
       >
         {{ menuItem.title }}
       </h3>
     </div>
 
     <footer>
-      <span class="material-symbols-rounded" title="Switch Theme" @click="$emit('theme-clicked')">
-        {{ props.theme === 'light' ? 'light' : 'dark' }}_mode
+      <span class="material-symbols-rounded" title="Switch Theme" @click="toggleTheme">
+        {{ theme === 'light' ? 'light' : 'dark' }}_mode
       </span>
-      <span class="lang" title="Switch Language" @click="toggleLang">{{ $i18n.locale.toUpperCase() }}</span>
+      <span class="lang" title="Switch Language" @click="switchLang">{{ $i18n.locale.toUpperCase() }}</span>
     </footer>
   </nav>
 </template>
@@ -126,6 +115,7 @@ nav * {
   background-color: var(--color-main-bg);
   display: grid;
   place-items: center;
+  cursor: pointer;
 }
 
 img {
