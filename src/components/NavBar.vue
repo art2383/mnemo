@@ -24,14 +24,14 @@ const route = useRoute()
 
 const menu: MenuItem[] = [
   {
-    title: 'Home',
+    title: 'home',
     routeObject: {
       name: 'home',
       params: {} // for checking if menu is active, consistency and TS validation
     }
   },
   {
-    title: 'Valid Mnemonic',
+    title: 'valid',
     routeObject: {
       name: 'seed',
       params: {
@@ -40,7 +40,7 @@ const menu: MenuItem[] = [
     }
   },
   {
-    title: 'Invalid Mnemonic',
+    title: 'invalid',
     routeObject: {
       name: 'seed',
       params: {
@@ -49,7 +49,7 @@ const menu: MenuItem[] = [
     }
   },
   {
-    title: 'Input Mnemonic',
+    title: 'input',
     routeObject: {
       name: 'seed',
       params: {
@@ -87,15 +87,15 @@ const goTo = (routeObject: object): void => {
           class="menu-item"
           :class="{active: isMenuItemActive(menuItem)}"
       >
-        {{ menuItem.title }}
+        {{ $t(`navBar.${menuItem.title}`) }}
       </h3>
     </div>
 
     <footer>
-      <span class="material-symbols-rounded" title="Switch Theme" @click="toggleTheme">
+      <span class="material-symbols-rounded" :title="$t('navBar.theme')" @click="toggleTheme">
         {{ theme === 'light' ? 'light' : 'dark' }}_mode
       </span>
-      <span class="lang" title="Switch Language" @click="switchLang">{{ $i18n.locale.toUpperCase() }}</span>
+      <span class="lang" :title="$t('navBar.lang')" @click="switchLang">{{ $i18n.locale.toUpperCase() }}</span>
     </footer>
   </nav>
 </template>
@@ -139,7 +139,7 @@ h2 {
 
 .menu-item {
   margin-bottom: 10px;
-  padding: 3px 20px;
+  padding: 6px 20px;
   border-radius: var(--radius);
   cursor: pointer;
 }

@@ -11,11 +11,11 @@ const { mnemonicWords } = storeToRefs(storeMnemonic)
   <div class="mnemonic-table">
     <div class="th">#</div>
     <div v-for="n in 12" :key="n">{{ n }}</div>
-    <div class="th">Word</div>
+    <div class="th">{{ $t('seed.word') }}</div>
     <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.word }}</div>
-    <div class="th">Line</div>
+    <div class="th">{{ $t('seed.line') }}</div>
     <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.line }}</div>
-    <div class="th">Hex</div>
+    <div class="th">{{ $t('seed.hex') }}</div>
     <div class="word" v-for="(mnemonicWord, i) in mnemonicWords" :key="i">{{ mnemonicWord.hex }}</div>
   </div>
 </template>

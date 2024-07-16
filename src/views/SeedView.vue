@@ -37,9 +37,9 @@ watch(() => route.params.type, (newVal, oldVal) => {
 
 const validations = computed((): Validation[] => {
   return [
-    { fn: isCorrectLength.value, title: 'Correct Length', icon: 'width' },
-    { fn: isFromDictionary.value, title: 'From Dictionary', icon: 'dictionary' },
-    { fn: isValidMnemonic.value, title: 'BIP-39 Valid', icon: 'license' }
+    { fn: isCorrectLength.value, title: 'validationLength', icon: 'width' },
+    { fn: isFromDictionary.value, title: 'validationDictionary', icon: 'dictionary' },
+    { fn: isValidMnemonic.value, title: 'validationBip39', icon: 'license' }
   ]
 })
 
@@ -57,57 +57,57 @@ const paste = () => {
 
 <template>
   <div class="generate-valid-view">
-    <h1>{{ route.params.type }} Mnemonic</h1>
+    <h1>{{ $t(`seed.h1${route.params.type}`) }}</h1>
 
     <div class="pads-grid">
       <PadBox v-if="route.params.type === 'valid'">
         <template #drop-cap>1</template>
-        <template #heading>Generate</template>
-        <template #about>BIP-39 standard: 11 random words + checksum word</template>
+        <template #heading>{{ $t('seed.generate') }}</template>
+        <template #about>{{ $t('seed.aboutValid') }}</template>
         <template #body>
           <div v-if="mnemonic">
             {{ mnemonic }}&#32;<CopyIcon :text="mnemonic"/>
           </div>
         </template>
         <template #footer>
-          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">Clear</button>
-          <button @click="generate">Generate Valid</button>
+          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">{{ $t('common.clear') }}</button>
+          <button @click="generate">{{ $t('seed.generate') }}</button>
         </template>
       </PadBox>
 
       <PadBox v-else-if="route.params.type === 'invalid'">
         <template #drop-cap>1</template>
-        <template #heading>Generate</template>
-        <template #about>BIP-39 dictionary: 12 random words</template>
+        <template #heading>{{ $t('seed.generate') }}</template>
+        <template #about>{{ $t('seed.aboutInvalid') }}</template>
         <template #body>
           <div v-if="mnemonic">
             {{ mnemonic }}&#32;<CopyIcon :text="mnemonic"/>
           </div>
         </template>
         <template #footer>
-          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">Clear</button>
-          <button @click="generateInvalid">Generate Invalid</button>
+          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">{{ $t('common.clear') }}</button>
+          <button @click="generateInvalid">{{ $t('seed.generate') }}</button>
         </template>
       </PadBox>
 
       <PadBox v-else-if="route.params.type === 'input'">
         <template #drop-cap>1</template>
-        <template #heading>Input</template>
-        <template #about>Your own mnemonic phrase</template>
+        <template #heading>{{ $t('seed.input') }}</template>
+        <template #about>{{ $t('seed.aboutInput') }}</template>
         <template #body>
-          <textarea v-model="mnemonic">asd</textarea>
+          <textarea v-model="mnemonic"></textarea>
         </template>
         <template #footer>
-          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">Clear</button>
-          <button v-show="mnemonic" class="secondary" @click="copy(mnemonic)">Copy</button>
-          <button @click="paste">Paste</button>
+          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">{{ $t('common.clear') }}</button>
+          <button v-show="mnemonic" class="secondary" @click="copy(mnemonic)">{{ $t('common.copy') }}</button>
+          <button @click="paste">{{ $t('common.paste') }}</button>
         </template>
       </PadBox>
 
       <PadBox v-if="mnemonic">
         <template #drop-cap>2</template>
-        <template #heading>Validity</template>
-        <template #about>Checking length, dictionary and BIP-39 validity</template>
+        <template #heading>{{ $t('seed.validity') }}</template>
+        <template #about>{{ $t('seed.aboutValidity') }}</template>
         <template #body>
           <div class="validity">
             <figure v-for="(validation, i) in validations" :key="i" :class="{invalid: !validation.fn}">
@@ -115,9 +115,9 @@ const paste = () => {
                 <span class="material-symbols-rounded">{{ validation.icon }}</span>
               </div>
               <figcaption>
-                <span v-if="validation.fn" class="material-symbols-rounded">check</span>
-                <span v-else class="material-symbols-rounded">close</span>
-                <span class="nowrap">{{ validation.title }}</span>
+                <span class="material-symbols-rounded" v-if="validation.fn" >check</span>
+                <span class="material-symbols-rounded" v-else >close</span>
+                <span class="small">{{ $t(`seed.${validation.title}`) }}</span>
               </figcaption>
             </figure>
           </div>
@@ -127,28 +127,28 @@ const paste = () => {
 
       <PadBox v-if="mnemonic" class="passphrase">
         <template #drop-cap>3</template>
-        <template #heading>Passphrase, optional</template>
-        <template #about>To add a layer of security (also BIP-39)</template>
+        <template #heading>{{ $t('seed.passphrase') }}</template>
+        <template #about>{{ $t('seed.passphraseAbout') }}</template>
         <template #body>
-          <input type="text" v-model="passphrase" placeholder="Your passphrase">
+          <input type="text" v-model="passphrase" :placeholder="$t('seed.passphrasePlaceholder')">
         </template>
         <template #footer></template>
       </PadBox>
 
       <PadBox class="pad4" v-if="mnemonic">
         <template #drop-cap>4</template>
-        <template #heading>Words Table</template>
-        <template #about>Index in BIP-39 dictionary with dec and hex representation</template>
+        <template #heading>{{ $t('seed.wordsTable') }}</template>
+        <template #about>{{ $t('seed.wordsTableAbout') }}</template>
         <template #body>
-          <WordsTable />
+          <WordsTable/>
         </template>
         <template #footer></template>
       </PadBox>
 
       <PadBox v-if="mnemonic">
         <template #drop-cap>5</template>
-        <template #heading>Seed</template>
-        <template #about>Still BIP-39: binary seed displayed in hex</template>
+        <template #heading>{{ $t('seed.seed') }}</template>
+        <template #about>{{ $t('seed.seedAbout') }}</template>
         <template #body>
           <div class="mono break">
             {{ seed.seedString }}
@@ -159,14 +159,14 @@ const paste = () => {
 
       <PadBox v-if="mnemonic">
         <template #drop-cap>6</template>
-        <template #heading>Root Keys</template>
-        <template #about>BIP-32: root private and public keys derived from the seed</template>
+        <template #heading>{{ $t('seed.rootKeys') }}</template>
+        <template #about>{{ $t('seed.rootKeysAbout') }}</template>
         <template #body>
-          <h3>Private Key</h3>
+          <h3>{{ $t('seed.privateKey') }}</h3>
           <div class="mono break">
             {{ rootKey.toJSON().xpriv }}
           </div>
-          <h3>Public Key</h3>
+          <h3>{{ $t('seed.publicKey') }}</h3>
           <div class="mono break">
             {{ rootKey.toJSON().xpub }}
           </div>
@@ -178,15 +178,14 @@ const paste = () => {
           <template #drop-cap>{{ i + 7 }}</template>
           <template #heading>{{ derivation.title }}</template>
           <template #about>
-            BIP-32 derivation for {{ derivation.title }} using BIP-44 path: {{ derivation.path }}
+            {{ $t('seed.derivationAbout', {title: derivation.title, path: derivation.path}) }}
           </template>
           <template #body>
-            <h3>Public Keys</h3>
+            <h3>{{ $t('seed.publicKeys') }}</h3>
             <div class="mono break" v-for="publicKey in derivation.publicKeys" :key="publicKey.slice(0,6)">
-              -
-              <ShortenedText :text="publicKey"/>
+              - <ShortenedText :text="publicKey"/>
             </div>
-            <h3>Addresses</h3>
+            <h3>{{ $t('seed.addresses') }}</h3>
             <div class="mono break" v-for="address in derivation.addresses" :key="address.slice(0,6)">
               - {{ address }}
             </div>
