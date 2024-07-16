@@ -10,6 +10,11 @@ const routes: {path: string, name: string, component: Function}[] = [
     path: '/seed/:type',
     name: 'seed',
     component: () => import('@/views/SeedView.vue'),
+  },
+  {
+    path: '/word12',
+    name: 'word12',
+    component: () => import('@/views/Word12View.vue'),
   }
 ]
 

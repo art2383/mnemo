@@ -56,6 +56,13 @@ const menu: MenuItem[] = [
         type: 'input'
       }
     }
+  },
+  {
+    title: 'word12',
+    routeObject: {
+      name: 'word12',
+      params: {}
+    }
   }
 ]
 

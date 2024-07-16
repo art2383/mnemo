@@ -9,6 +9,7 @@ const en = {
     valid: 'Valid Mnemonic',
     invalid: 'Invalid Mnemonic',
     input: 'Input Mnemonic',
+    word12: '12-th Word',
     theme: 'Switch Theme',
     lang: 'Switch Language'
   },
@@ -52,6 +53,10 @@ const en = {
     derivationAbout: 'BIP-32 derivation for {title} using BIP-44 path: {path}',
     publicKeys: 'Public Keys',
     addresses: 'Addresses'
+  },
+  word12: {
+    h1: '12-th Word',
+    comingSoon: 'Coming Soon'
   }
 }
 
