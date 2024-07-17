@@ -51,6 +51,7 @@ const en = {
     privateKey: 'Private Key',
     publicKey: 'Public Key',
     derivationAbout: 'BIP-32 derivation for {title} using BIP-44 path: {path}',
+    privateKeys: 'Private Keys',
     publicKeys: 'Public Keys',
     addresses: 'Addresses'
   },

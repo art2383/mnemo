@@ -181,9 +181,13 @@ const paste = () => {
             {{ $t('seed.derivationAbout', {title: derivation.title, path: derivation.path}) }}
           </template>
           <template #body>
+            <h3>{{ $t('seed.privateKeys') }}</h3>
+            <div class="mono break" v-for="privateKeyReadable in derivation.privateKeysReadable" :key="privateKeyReadable.slice(0,6)">
+              - <ShortenedText :text="privateKeyReadable"/>
+            </div>
             <h3>{{ $t('seed.publicKeys') }}</h3>
-            <div class="mono break" v-for="publicKey in derivation.publicKeys" :key="publicKey.slice(0,6)">
-              - <ShortenedText :text="publicKey"/>
+            <div class="mono break" v-for="publicKeyReadable in derivation.publicKeysReadable" :key="publicKeyReadable.slice(0,6)">
+              - <ShortenedText :text="publicKeyReadable"/>
             </div>
             <h3>{{ $t('seed.addresses') }}</h3>
             <div class="mono break" v-for="address in derivation.addresses" :key="address.slice(0,6)">

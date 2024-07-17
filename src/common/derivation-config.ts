@@ -1,4 +1,8 @@
-import { publicKeyToBitcoinAddress, publicKeyToBitcoinSegWitAddress } from '@/common/helpers.ts'
+import {
+  publicKeyToBitcoinAddress,
+  publicKeyToBitcoinSegWitAddress,
+  publicKeyToEthereumAddress
+} from '@/common/helpers.ts'
 
 export const derivationConfig = { // append index after each path
   bitcoin: {
@@ -11,9 +15,9 @@ export const derivationConfig = { // append index after each path
     path: `m/84'/0'/0'/0/`,
     method: publicKeyToBitcoinSegWitAddress
   },
-  // ethereum: {
-  //   title: 'Ethereum',
-  //   path: `m/44'/60'/0'/0/`,
-  //   method: publicKeyToEthereumAddress
-  // }
+  ethereum: {
+    title: 'Ethereum',
+    path: `m/44'/60'/0'/0/`,
+    method: publicKeyToEthereumAddress
+  }
 }

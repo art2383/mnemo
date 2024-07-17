@@ -12,6 +12,7 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "@noble/secp256k1": "^2.1.0",
     "@scure/bip32": "^1.4.0",
     "bech32": "^2.0.0",
     "bip39": "^3.1.0",

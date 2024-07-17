@@ -51,6 +51,7 @@ const ru = {
     privateKey: 'Приватный Ключ',
     publicKey: 'Публичный Ключ',
     derivationAbout: 'BIP-32 деривация для {title} при помощи BIP-44 пути: {path}=',
+    privateKeys: 'Приватные Ключи',
     publicKeys: 'Публичные Ключи',
     addresses: 'Адреса'
   },

@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { generateMnemonic, validateMnemonic, mnemonicToSeedSync, wordlists } from 'bip39'
 import { HDKey } from '@scure/bip32' // regular bip32 library has dependencies, this one doesn't, and this one is easier implemented
-import { uint8ArrayToHex } from '@/common/helpers'
 import { derivationConfig } from '@/common/derivation-config'
 
 type MnemonicWordsArray = {
@@ -80,19 +79,23 @@ const moduleSetup = () => {
   const derivations = computed((): [] => {
     const result = []
     Object.keys(derivationConfig).forEach(blockchain => {
-      const publicKeys: string[] = []
+      const privateKeysReadable: string[] = []
+      const publicKeysReadable: string[] = []
       const addresses: string[] = []
       for (let i = 0; i < q; i++) {
-        const publicKey: Uint8Array = rootKey.value.derive(derivationConfig[blockchain].path + i).publicKey
-        const address: string = derivationConfig[blockchain].method(Buffer.from(publicKey))
-        const publicKeyReadable: string = uint8ArrayToHex(publicKey)
-        publicKeys.push(publicKeyReadable)
+        const node: HDKey = rootKey.value.derive(derivationConfig[blockchain].path + i)
+        const privateKeyReadable: string = Buffer.from(node.privateKey as Uint8Array).toString('hex')
+        const publicKeyReadable: string = Buffer.from(node.publicKey as Uint8Array).toString('hex')
+        const address: string = derivationConfig[blockchain].method(Buffer.from(node.publicKey))
+        privateKeysReadable.push(privateKeyReadable)
+        publicKeysReadable.push(publicKeyReadable)
         addresses.push(address)
       }
       result.push({
         title: derivationConfig[blockchain].title,
         path: derivationConfig[blockchain].path + 'i',
-        publicKeys,
+        privateKeysReadable,
+        publicKeysReadable,
         addresses
       })
     })
