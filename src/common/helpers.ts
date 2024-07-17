@@ -12,11 +12,26 @@ const ripemd160 = (buffer: Buffer): Buffer => {
   return createHash('ripemd160').update(buffer).digest()
 }
 
+// create a checksum function here for first 4 bytes of double-sha256
+
+export const privateKeyToCompressedWif = (privateKey: Buffer): string => {
+  const prefix: Buffer = Buffer.from([0x80]) // for mainnet
+  const suffix: Buffer = Buffer.from([0x01]) // for compressed
+  const withAddedBytes: Buffer = Buffer.concat([prefix, privateKey, suffix])
+  const checksum: Buffer = sha256(sha256(withAddedBytes)).subarray(0, 4)
+  const compressedWif: string = bs58.encode(Buffer.concat([withAddedBytes, checksum]))
+  return compressedWif
+}
+
+export const privateKeyToHex = (privateKey: Buffer): string => {
+  return privateKey.toString('hex')
+}
+
 export const publicKeyToBitcoinAddress = (publicKey: Buffer): string => {
   const sha256Hash: Buffer = sha256(publicKey)
   const ripemd160Hash: Buffer = ripemd160(sha256Hash)
   const versionedPayload: Buffer = Buffer.concat([Buffer.from([0x00]), ripemd160Hash])
-  const checksum: Buffer = sha256(sha256(versionedPayload)).slice(0, 4)
+  const checksum: Buffer = sha256(sha256(versionedPayload)).subarray(0, 4)
   const binaryAddress: Buffer = Buffer.concat([versionedPayload, checksum])
   const bitcoinAddress: string = bs58.encode(binaryAddress)
   return bitcoinAddress

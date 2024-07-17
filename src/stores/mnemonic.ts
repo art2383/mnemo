@@ -84,9 +84,9 @@ const moduleSetup = () => {
       const addresses: string[] = []
       for (let i = 0; i < q; i++) {
         const node: HDKey = rootKey.value.derive(derivationConfig[blockchain].path + i)
-        const privateKeyReadable: string = Buffer.from(node.privateKey as Uint8Array).toString('hex')
+        const privateKeyReadable: string = derivationConfig[blockchain].getPrivateKeyReadable(Buffer.from(node.privateKey))
         const publicKeyReadable: string = Buffer.from(node.publicKey as Uint8Array).toString('hex')
-        const address: string = derivationConfig[blockchain].method(Buffer.from(node.publicKey))
+        const address: string = derivationConfig[blockchain].getAddress(Buffer.from(node.publicKey))
         privateKeysReadable.push(privateKeyReadable)
         publicKeysReadable.push(publicKeyReadable)
         addresses.push(address)

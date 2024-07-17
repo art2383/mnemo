@@ -13,7 +13,7 @@ const shortened = computed(() => {
   if (props.text.length <= props.radius * 2) {
     return props.text
   } else {
-    return props.text.slice(0, props.radius) + '...' + props.text.slice(-1 * props.radius) // + ` (${props.text.length} ch.)`
+    return props.text.slice(0, props.radius) + '...' + props.text.slice(-1 * props.radius) + ` (${props.text.length} ch.)`
   }
 })
 
