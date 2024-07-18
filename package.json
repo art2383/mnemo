@@ -1,5 +1,5 @@
 {
-  "name": "mnemonic-vue3-ts-vitest",
+  "name": "mnemo",
   "version": "0.0.0",
   "private": true,
   "type": "module",
