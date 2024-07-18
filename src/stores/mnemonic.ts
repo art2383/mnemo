@@ -16,7 +16,7 @@ type Seed = {
 }
 
 const moduleSetup = () => {
-  const q = 3
+  const q = 2
   const mnemonic = ref('')
   const passphrase = ref('')
 
