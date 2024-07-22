@@ -1,39 +1,27 @@
-# mnemo
+# Mnemo
 
-This template should help get you started developing with Vue 3 in Vite.
+My demo project for Vue 3, Pinia, TS & Vitest.
 
-## Recommended IDE Setup
+Deployed on Vercel: [mnemo1.vercel.app](https://mnemo1.vercel.app) 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### What the app does:
+- Analyzes cryptocurrency mnemonics (aka seed phrases)
+- Derives addresses for different blockchains
+- Shows all steps of address derivation
+- Exposes private keys
+- Lets user edit the mnemonic and see the result in real time
+- Implements a passphrase feature for advanced security  
 
-## Type Support for `.vue` Imports in TS
+### What the app has:
+- Vue 3 with Composition API & Pinia with Setup Stores
+- Some TypeScript and Vitest
+- Common hash functions and blockchain-specific logic instead of high-level libraries
+- Adaptive CSS for mobile / desktop / 4k
+- Two color themes, with the default being determined by the browser/OS
+- I18n with two languages
+- Saving of the language and theme
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
+### Test Vectors:
+- For valid-checksum mnemonics use [Ian Coleman's BIP-39 online tool](https://iancoleman.io/bip39/) or any wallet app (MetaMask, Trust Wallet, etc)
+- For invalid-checksum mnemonics use Electrum Wallet desktop app
+- NEVER USE mnemonics with real coins and tokens in this or any other online tool
