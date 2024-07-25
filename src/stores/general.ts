@@ -2,13 +2,21 @@ import { useI18n } from 'vue-i18n'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+type Defaults = {
+  theme: string ,
+  lang: string
+}
+
 const moduleSetup = () => {
   // App Init
   const appInit = () => {
-    setLang(localStorage.getItem('lang') || locale.value) // default lang is set in main.ts, do not set here
-    const themeLocal = localStorage.getItem('theme')
-    const themeMedia = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-    setTheme(themeLocal || themeMedia) // doesn't work in one line, don't know why ((
+    const defaults: Defaults = {
+      theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+      lang: locale.value
+    }
+
+    setLang(localStorage.getItem('lang') || defaults.lang)
+    setTheme(localStorage.getItem('theme') || defaults.theme)
   }
 
   // Theme
