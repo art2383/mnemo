@@ -3,8 +3,10 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 type Defaults = {
-  theme: string ,
-  lang: string
+  theme: string,
+  lang: string,
+  exposePrivateKeys: boolean,
+  qDerivations: number
 }
 
 const moduleSetup = () => {
@@ -12,11 +14,19 @@ const moduleSetup = () => {
   const appInit = () => {
     const defaults: Defaults = {
       theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-      lang: locale.value
+      lang: locale.value,
+      exposePrivateKeys: true,
+      qDerivations: 3
     }
 
     setLang(localStorage.getItem('lang') || defaults.lang)
     setTheme(localStorage.getItem('theme') || defaults.theme)
+    setExposePrivateKeys(
+      localStorage.getItem('exposePrivateKeys')
+        ? localStorage.getItem('exposePrivateKeys') === 'true'
+        : defaults.exposePrivateKeys
+    )
+    setQDerivations(Number(localStorage.getItem('qDerivations')) || defaults.qDerivations)
   }
 
   // Theme
@@ -47,8 +57,24 @@ const moduleSetup = () => {
     setLang(availableLocales[nextIndex])
   }
 
+  // Expose Private Keys
+  const exposePrivateKeys = ref(true)
+
+  const setExposePrivateKeys = (newVal: boolean) => {
+    exposePrivateKeys.value = newVal
+    localStorage.setItem('exposePrivateKeys', JSON.stringify(newVal))
+  }
+
+  // Derivations Quantity
+  const qDerivations = ref(0)
+
+  const setQDerivations = (newNumber: number) => {
+    qDerivations.value = newNumber
+    localStorage.setItem('qDerivations', String(newNumber))
+  }
+
   return {
-    appInit, theme, toggleTheme, switchLang
+    appInit, theme, toggleTheme, switchLang, exposePrivateKeys, qDerivations
   }
 }
 
