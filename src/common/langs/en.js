@@ -59,6 +59,13 @@ const en = {
   word12: {
     h1: '12-th Word',
     comingSoon: 'Coming Soon'
+  },
+  settings: {
+    h1: 'Settings',
+    general: 'General',
+    exposePrivateKeys: 'Expose Private Keys',
+    qDerivations: 'Derivations Quantity',
+    plenty: 'Come on, 9 is plenty, it\'s CPU-intensive'
   }
 }
 

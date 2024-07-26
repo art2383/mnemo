@@ -23,7 +23,7 @@ const changeQDerivations = (newVal: string) => {
     newNumber = 9
     setTimeout(() => {
       showLabel.value = false
-    }, 2000)
+    }, 4000)
   } else {
     showLabel.value = false
   }
@@ -34,22 +34,22 @@ const changeQDerivations = (newVal: string) => {
 
 <template>
   <div class="settings-view">
-    <h1>Settings</h1>
+    <h1>{{ $t('settings.h1') }}</h1>
 
     <PadBox class="settings">
       <template #drop-cap><span class="material-symbols-rounded">settings</span></template>
-      <template #heading>General</template>
+      <template #heading>{{ $t('settings.general') }}</template>
       <template #body>
         <div class="setting">
-          <span>Expose Private Keys</span>
-          <VueToggles :value="exposePrivateKeys" @click="toggleExposePrivateKeys" :width="50" />
+          <span>{{ $t('settings.exposePrivateKeys') }}</span>
+          <VueToggles :value="exposePrivateKeys" @click="toggleExposePrivateKeys" :width="50"/>
         </div>
 
         <div class="setting">
-          <span>Derivations Quantity</span>
+          <span>{{ $t('settings.qDerivations') }}</span>
           <div class="input-group">
             <span><input :value="qDerivations" @input="changeQDerivations($event.target.value)"></span>
-            <small v-show="showLabel">Come on, 9 is plenty, it's CPU-intensive</small>
+            <small v-show="showLabel">{{ $t('settings.plenty') }}</small>
           </div>
         </div>
       </template>
@@ -80,7 +80,8 @@ const changeQDerivations = (newVal: string) => {
 
 .setting .input-group small {
   position: absolute;
-  top: 40px; right: 0;
+  top: 40px;
+  right: 0;
   white-space: nowrap;
 }
 
