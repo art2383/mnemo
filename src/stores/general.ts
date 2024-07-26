@@ -12,6 +12,8 @@ type Defaults = {
 const moduleSetup = () => {
   // App Init
   const appInit = () => {
+    console.log('locale')
+    console.log(locale)
     const defaults: Defaults = {
       theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
       lang: locale.value,
@@ -44,7 +46,7 @@ const moduleSetup = () => {
 
   // Lang
   // no lang ref here, because i18n itself is a composable alright
-  const { locale, availableLocales } = useI18n
+  const { locale, availableLocales } = useI18n()
 
   const setLang = (data: string): void => {
     locale.value = data
