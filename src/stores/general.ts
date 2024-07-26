@@ -44,7 +44,7 @@ const moduleSetup = () => {
 
   // Lang
   // no lang ref here, because i18n itself is a composable alright
-  const { locale, availableLocales } = useI18n()
+  const { locale, availableLocales } = useI18n
 
   const setLang = (data: string): void => {
     locale.value = data

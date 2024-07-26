@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { generateMnemonic, validateMnemonic, mnemonicToSeedSync, wordlists } from 'bip39'
 import { HDKey } from '@scure/bip32' // regular bip32 library has dependencies, this one doesn't, and this one is easier implemented
 import { derivationConfig } from '@/common/derivation-config'
-import { useGeneralStore } from '@/stores/general'
+import { useGeneralStore } from '@/stores/general.ts'
 
 type MnemonicWordsArray = {
   word: string,

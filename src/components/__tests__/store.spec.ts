@@ -1,16 +1,45 @@
-import { describe, beforeEach, it, expect } from 'vitest'
-import { setActivePinia, createPinia } from 'pinia'
-import { useMnemonicStore } from '@/stores/mnemonic'
+import { ref } from 'vue'
+import { setActivePinia } from 'pinia'
+import { createTestingPinia } from '@pinia/testing'
+import { describe, beforeEach, it, expect, vi } from 'vitest'
+import { useGeneralStore } from '@/stores/general.ts'
+import { useMnemonicStore } from '@/stores/mnemonic.ts'
+
+describe('General Store', () => {
+  beforeEach(() => {
+    // creates a fresh pinia and makes it active, so it's automatically picked up by any useStore() call
+    // without having to pass it to `useStore(pinia)`
+    const pinia = createTestingPinia({ createSpy: vi.fn })
+    setActivePinia(pinia)
+  })
+
+  it('has private keys exposure set to true by default', () => {
+    const generalStore = useGeneralStore()
+
+    expect(generalStore['exposePrivateKeys'].value).toBe(true) // direct ref from general store, needs .value, error without .value
+  })
+})
+
+// Mock General store
+vi.mock('@/stores/general.ts', () => {
+  return {
+    useGeneralStore: () => ({
+      exposePrivateKeys: ref(true),
+      qDerivations: ref(2)
+    })
+  }
+})
 
 describe('Mnemonic Store', () => {
   beforeEach(() => {
-    // creates a fresh pinia and makes it active, so it's automatically picked up by any useStore() call; without having to pass it to it: `useStore(pinia)`
-    setActivePinia(createPinia())
+    const pinia = createTestingPinia({ createSpy: vi.fn })
+    setActivePinia(pinia)
   })
 
   it('has initial state of empty strings', () => {
     const mnemonicStore = useMnemonicStore()
-    expect(mnemonicStore['mnemonic']).toBe('')
+
+    expect(mnemonicStore['mnemonic']).toBe('') // here .value returns undefined
     expect(mnemonicStore['passphrase']).toBe('')
   })
 
