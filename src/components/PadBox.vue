@@ -4,10 +4,10 @@
 
 <template>
   <div class="pad-box">
-    <header>
+    <header :class="{'has-about': this.$slots.about}">
       <div class="drop-cap"><slot name="drop-cap"></slot></div>
       <div class="heading"><slot name="heading"></slot></div>
-      <small><slot name="about"></slot></small>
+      <small class="about"><slot name="about"></slot></small>
     </header>
     <div class="body">
       <slot name="body"></slot>
@@ -34,13 +34,11 @@ header {
   margin: 0 0 var(--gutter) 0;
   display: grid;
   grid-template-columns: max-content 1fr;
-  grid-template-rows: max-content;
+  grid-template-rows: max-content max-content;
   column-gap: 10px;
-  place-items: start;
 }
 
 header .drop-cap {
-  grid-column: 1/2;
   grid-row: 1/3;
   width: 50px;
   height: 50px;
@@ -53,8 +51,23 @@ header .drop-cap {
 }
 
 header .heading {
+  grid-row: 1/3;
+  place-self: center start;
   font-size: 1.2rem;
   font-weight: 600;
+}
+
+header .about {
+  display: none;
+}
+
+header.has-about .heading {
+  grid-row: 1/2;
+}
+
+header.has-about .about {
+  display: block;
+  grid-row: 2/3;
 }
 
 footer {

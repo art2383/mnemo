@@ -39,7 +39,6 @@ const changeQDerivations = (newVal: string) => {
     <PadBox class="settings">
       <template #drop-cap><span class="material-symbols-rounded">settings</span></template>
       <template #heading>General</template>
-      <template #about>App related settings</template>
       <template #body>
         <div class="setting">
           <span>Expose Private Keys</span>
