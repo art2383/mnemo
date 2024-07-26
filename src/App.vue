@@ -55,7 +55,7 @@ nav {
   top: 0;
   left: 0;
   z-index: 10;
-  height: 100vh;
+  height: 100%;
   width: var(--navbar-width);
   border-radius: 0 var(--radius) var(--radius) 0;
 }
