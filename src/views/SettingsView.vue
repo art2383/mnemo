@@ -63,7 +63,7 @@ const changeQDerivations = (newVal: string) => {
 }
 
 .setting {
-  height: 80px;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
