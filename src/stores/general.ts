@@ -12,8 +12,6 @@ type Defaults = {
 const moduleSetup = () => {
   // App Init
   const appInit = () => {
-    console.log('locale')
-    console.log(locale)
     const defaults: Defaults = {
       theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
       lang: locale.value,
