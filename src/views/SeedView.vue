@@ -2,6 +2,7 @@
 import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMnemonicStore } from '@/stores/mnemonic.ts'
+import { useGeneralStore } from '@/stores/general.ts'
 import { storeToRefs } from 'pinia'
 import PadBox from '@/components/PadBox.vue'
 import CopyIcon from '@/components/CopyIcon.vue'
@@ -15,7 +16,8 @@ type Validation = {
 }
 
 const route = useRoute()
-const storeMnemonic = useMnemonicStore()
+const mnemonicStore = useMnemonicStore()
+const generalStore = useGeneralStore()
 const {
   mnemonic,
   passphrase,
@@ -25,7 +27,9 @@ const {
   seed,
   rootKey,
   derivations
-} = storeToRefs(storeMnemonic)
+} = storeToRefs(mnemonicStore)
+
+const { exposePrivateKeys } = storeToRefs(generalStore)
 
 const { clear, generate, generateInvalid } = useMnemonicStore()
 
@@ -70,7 +74,7 @@ const paste = () => {
           </div>
         </template>
         <template #footer>
-          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">{{ $t('common.clear') }}</button>
+          <button v-show="mnemonic" class="secondary" @click="mnemonicStore.clear">{{ $t('common.clear') }}</button>
           <button @click="generate">{{ $t('seed.generate') }}</button>
         </template>
       </PadBox>
@@ -85,7 +89,7 @@ const paste = () => {
           </div>
         </template>
         <template #footer>
-          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">{{ $t('common.clear') }}</button>
+          <button v-show="mnemonic" class="secondary" @click="mnemonicStore.clear">{{ $t('common.clear') }}</button>
           <button @click="generateInvalid">{{ $t('seed.generate') }}</button>
         </template>
       </PadBox>
@@ -98,7 +102,7 @@ const paste = () => {
           <textarea v-model="mnemonic"></textarea>
         </template>
         <template #footer>
-          <button v-show="mnemonic" class="secondary" @click="storeMnemonic.clear">{{ $t('common.clear') }}</button>
+          <button v-show="mnemonic" class="secondary" @click="mnemonicStore.clear">{{ $t('common.clear') }}</button>
           <button v-show="mnemonic" class="secondary" @click="copy(mnemonic)">{{ $t('common.copy') }}</button>
           <button @click="paste">{{ $t('common.paste') }}</button>
         </template>
@@ -115,8 +119,8 @@ const paste = () => {
                 <span class="material-symbols-rounded">{{ validation.icon }}</span>
               </div>
               <figcaption>
-                <span class="material-symbols-rounded" v-if="validation.fn" >check</span>
-                <span class="material-symbols-rounded" v-else >close</span>
+                <span class="material-symbols-rounded" v-if="validation.fn">check</span>
+                <span class="material-symbols-rounded" v-else>close</span>
                 <span class="small">{{ $t(`seed.${validation.title}`) }}</span>
               </figcaption>
             </figure>
@@ -163,9 +167,10 @@ const paste = () => {
         <template #about>{{ $t('seed.rootKeysAbout') }}</template>
         <template #body>
           <h3>{{ $t('seed.privateKey') }}</h3>
-          <div class="mono break">
+          <div class="mono break" v-if="exposePrivateKeys">
             {{ rootKey.toJSON().xpriv }}
           </div>
+          <div v-else>* * *</div>
           <h3>{{ $t('seed.publicKey') }}</h3>
           <div class="mono break">
             {{ rootKey.toJSON().xpub }}
@@ -178,16 +183,20 @@ const paste = () => {
           <template #drop-cap>{{ i + 7 }}</template>
           <template #heading>{{ derivation.title }}</template>
           <template #about>
-            {{ $t('seed.derivationAbout', {title: derivation.title, path: derivation.path}) }}
+            {{ $t('seed.derivationAbout', { title: derivation.title, path: derivation.path }) }}
           </template>
           <template #body>
             <h3>{{ $t('seed.privateKeys') }}</h3>
-            <div class="mono break" v-for="privateKeyReadable in derivation.privateKeysReadable" :key="privateKeyReadable.slice(0,6)">
-              - <ShortenedText :text="privateKeyReadable"/>
+            <div class="mono break" v-for="privateKeyReadable in derivation.privateKeysReadable"
+                 :key="privateKeyReadable.slice(0,6)">
+              -
+              <ShortenedText :text="privateKeyReadable"/>
             </div>
             <h3>{{ $t('seed.publicKeys') }}</h3>
-            <div class="mono break" v-for="publicKeyReadable in derivation.publicKeysReadable" :key="publicKeyReadable.slice(0,6)">
-              - <ShortenedText :text="publicKeyReadable"/>
+            <div class="mono break" v-for="publicKeyReadable in derivation.publicKeysReadable"
+                 :key="publicKeyReadable.slice(0,6)">
+              -
+              <ShortenedText :text="publicKeyReadable"/>
             </div>
             <h3>{{ $t('seed.addresses') }}</h3>
             <div class="mono break" v-for="address in derivation.addresses" :key="address.slice(0,6)">

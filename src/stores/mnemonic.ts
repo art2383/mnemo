@@ -1,8 +1,9 @@
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import { ref, computed } from 'vue'
 import { generateMnemonic, validateMnemonic, mnemonicToSeedSync, wordlists } from 'bip39'
 import { HDKey } from '@scure/bip32' // regular bip32 library has dependencies, this one doesn't, and this one is easier implemented
 import { derivationConfig } from '@/common/derivation-config'
+import { useGeneralStore } from '@/stores/general'
 
 type MnemonicWordsArray = {
   word: string,
@@ -15,8 +16,10 @@ type Seed = {
   seedString: string
 }
 
+const generalStore = useGeneralStore()
+const { exposePrivateKeys, qDerivations } = storeToRefs(generalStore)
+
 const moduleSetup = () => {
-  const q = 2
   const mnemonic = ref('')
   const passphrase = ref('')
 
@@ -82,9 +85,11 @@ const moduleSetup = () => {
       const privateKeysReadable: string[] = []
       const publicKeysReadable: string[] = []
       const addresses: string[] = []
-      for (let i = 0; i < q; i++) {
+      for (let i = 0; i < qDerivations.value; i++) {
         const node: HDKey = rootKey.value.derive(derivationConfig[blockchain].path + i)
-        const privateKeyReadable: string = derivationConfig[blockchain].getPrivateKeyReadable(Buffer.from(node.privateKey))
+        const privateKeyReadable: string = exposePrivateKeys.value
+          ? derivationConfig[blockchain].getPrivateKeyReadable(Buffer.from(node.privateKey))
+          : '* * *'
         const publicKeyReadable: string = Buffer.from(node.publicKey as Uint8Array).toString('hex')
         const address: string = derivationConfig[blockchain].getAddress(Buffer.from(node.publicKey))
         privateKeysReadable.push(privateKeyReadable)

@@ -11,7 +11,8 @@ const en = {
     input: 'Input Mnemonic',
     word12: '12-th Word',
     theme: 'Switch Theme',
-    lang: 'Switch Language'
+    lang: 'Switch Language',
+    settings: 'Settings'
   },
   home: {
     h1: 'Home',

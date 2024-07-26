@@ -15,6 +15,11 @@ const routes: {path: string, name: string, component: Function}[] = [
     path: '/word12',
     name: 'word12',
     component: () => import('@/views/Word12View.vue'),
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@/views/SettingsView.vue'),
   }
 ]
 

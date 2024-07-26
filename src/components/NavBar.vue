@@ -102,7 +102,12 @@ const goTo = (routeObject: object): void => {
       <span class="material-symbols-rounded" :title="$t('navBar.theme')" @click="toggleTheme">
         {{ theme === 'light' ? 'light' : 'dark' }}_mode
       </span>
-      <span class="lang" :title="$t('navBar.lang')" @click="switchLang">{{ $i18n.locale.toUpperCase() }}</span>
+      <span class="lang" :title="$t('navBar.lang')" @click="switchLang">
+        {{ $i18n.locale.toUpperCase() }}
+      </span>
+      <router-link :to="{name: 'settings'}">
+        <span class="material-symbols-rounded" :title="$t('navBar.settings')">settings</span>
+      </router-link>
     </footer>
   </nav>
 </template>
@@ -170,8 +175,11 @@ footer > * {
   cursor: pointer;
 }
 
+footer > *:not(:last-child) {
+  margin-right: var(--gutter);
+}
+
 footer .lang {
-  margin-left: var(--gutter);
   font-weight: 600;
 }
 

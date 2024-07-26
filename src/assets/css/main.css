@@ -64,6 +64,10 @@ textarea::placeholder {
   font-style: italic;
 }
 
+a > * {
+  vertical-align: middle;
+}
+
 /* ======================= BUTTONS: ======================= */
 
 button {

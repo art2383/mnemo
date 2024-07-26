@@ -16,7 +16,7 @@ const moduleSetup = () => {
       theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
       lang: locale.value,
       exposePrivateKeys: true,
-      qDerivations: 3
+      qDerivations: 2
     }
 
     setLang(localStorage.getItem('lang') || defaults.lang)
@@ -74,7 +74,11 @@ const moduleSetup = () => {
   }
 
   return {
-    appInit, theme, toggleTheme, switchLang, exposePrivateKeys, qDerivations
+    appInit,
+    theme, toggleTheme,
+    switchLang,
+    exposePrivateKeys, setExposePrivateKeys,
+    qDerivations, setQDerivations
   }
 }
 
