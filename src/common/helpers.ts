@@ -41,17 +41,10 @@ export const publicKeyToBitcoinSegWitAddress = (publicKey: Buffer): string => {
   const sha256Hash: Buffer = sha256(publicKey)
   const ripemd160Hash: Buffer = ripemd160(sha256Hash)
   const witnessVersion = 0x00
-  const words = [String(witnessVersion), ...bech32.toWords(ripemd160Hash)]
+  const words: number[] = [witnessVersion, ...bech32.toWords(ripemd160Hash)]
   const segwitAddress: string = bech32.encode('bc', words)
   return segwitAddress
 }
-// export const privateKeyToEthereumAddress = (privateKey: Buffer): string => {
-//   const wallet: Wallet = new ethers.Wallet(privateKey.toString('hex'))
-//   const address: string = wallet.address
-//   // const publicKey: string = wallet.publicKey
-//
-//   return address
-// }
 
 export const publicKeyToEthereumAddress = (publicKey: Buffer): string => {
   const uncompressedPublicKey = secp.ProjectivePoint.fromHex(publicKey.toString('hex')).toRawBytes(false)
