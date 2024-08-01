@@ -36,7 +36,10 @@
 
       <h2>{{$t('readme.testing')}}</h2>
       <ul>
-        <li v-html="$t('readme.test1', {link: `<a href='https://iancoleman.io/bip39' target='_blank'>Ian Coleman's BIP-39 online tool</a>`})"></li>
+        <li>
+          {{$t('readme.test1')}}
+          <a href="https://iancoleman.io/bip39" target="_blank">{{$t('readme.colemanTool')}}</a>
+        </li>
         <li>{{$t('readme.test2')}}</li>
         <li>{{$t('readme.test3')}}</li>
       </ul>

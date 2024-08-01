@@ -80,6 +80,7 @@ const en = {
     has7: 'Saving of the language and theme',
     testing: 'Testing',
     test1: 'For valid-checksum mnemonics use {link}',
+    colemanTool: 'Ian Coleman\'s BIP-39 Online Tool',
     test2: 'Popular wallet apps (MetaMask, Trust Wallet, etc) will do as well',
     test3: 'For invalid-checksum mnemonics use Electrum Wallet desktop app',
     disclaimer: 'Disclaimer',
