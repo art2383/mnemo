@@ -35,7 +35,7 @@ const toggle = () => {
 </template>
 
 <style scoped>
-  .shortened-text {
-    cursor: pointer;
-  }
+.shortened-text {
+  cursor: pointer;
+}
 </style>

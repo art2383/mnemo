@@ -29,7 +29,6 @@ const changeQDerivations = (newVal: string) => {
   }
   setQDerivations(newNumber)
 }
-
 </script>
 
 <template>
@@ -42,13 +41,13 @@ const changeQDerivations = (newVal: string) => {
       <template #body>
         <div class="setting">
           <span>{{ $t('settings.exposePrivateKeys') }}</span>
-          <VueToggles :value="exposePrivateKeys" @click="toggleExposePrivateKeys" :width="50"/>
+          <VueToggles :value="exposePrivateKeys" @click="toggleExposePrivateKeys" :width="50" />
         </div>
 
         <div class="setting">
           <span>{{ $t('settings.qDerivations') }}</span>
           <div class="input-group">
-            <span><input :value="qDerivations" @input="changeQDerivations($event.target.value)"></span>
+            <span><input :value="qDerivations" @input="changeQDerivations($event.target.value)" /></span>
             <small v-show="showLabel">{{ $t('settings.plenty') }}</small>
           </div>
         </div>

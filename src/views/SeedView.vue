@@ -69,9 +69,7 @@ const paste = () => {
         <template #heading>{{ $t('seed.generate') }}</template>
         <template #about>{{ $t('seed.aboutValid') }}</template>
         <template #body>
-          <div v-if="mnemonic">
-            {{ mnemonic }}&#32;<CopyIcon :text="mnemonic"/>
-          </div>
+          <div v-if="mnemonic">{{ mnemonic }}&#32;<CopyIcon :text="mnemonic" /></div>
         </template>
         <template #footer>
           <button v-show="mnemonic" class="secondary" @click="mnemonicStore.clear">{{ $t('common.clear') }}</button>
@@ -84,9 +82,7 @@ const paste = () => {
         <template #heading>{{ $t('seed.generate') }}</template>
         <template #about>{{ $t('seed.aboutInvalid') }}</template>
         <template #body>
-          <div v-if="mnemonic">
-            {{ mnemonic }}&#32;<CopyIcon :text="mnemonic"/>
-          </div>
+          <div v-if="mnemonic">{{ mnemonic }}&#32;<CopyIcon :text="mnemonic" /></div>
         </template>
         <template #footer>
           <button v-show="mnemonic" class="secondary" @click="mnemonicStore.clear">{{ $t('common.clear') }}</button>
@@ -134,7 +130,7 @@ const paste = () => {
         <template #heading>{{ $t('seed.passphrase') }}</template>
         <template #about>{{ $t('seed.passphraseAbout') }}</template>
         <template #body>
-          <input type="text" v-model="passphrase" :placeholder="$t('seed.passphrasePlaceholder')">
+          <input type="text" v-model="passphrase" :placeholder="$t('seed.passphrasePlaceholder')" />
         </template>
         <template #footer></template>
       </PadBox>
@@ -144,7 +140,7 @@ const paste = () => {
         <template #heading>{{ $t('seed.wordsTable') }}</template>
         <template #about>{{ $t('seed.wordsTableAbout') }}</template>
         <template #body>
-          <WordsTable/>
+          <WordsTable />
         </template>
         <template #footer></template>
       </PadBox>
@@ -187,16 +183,22 @@ const paste = () => {
           </template>
           <template #body>
             <h3>{{ $t('seed.privateKeys') }}</h3>
-            <div class="mono break" v-for="privateKeyReadable in derivation.privateKeysReadable"
-                 :key="privateKeyReadable.slice(0,6)">
+            <div
+              class="mono break"
+              v-for="privateKeyReadable in derivation.privateKeysReadable"
+              :key="privateKeyReadable.slice(0,6)"
+            >
               -
-              <ShortenedText :text="privateKeyReadable"/>
+              <ShortenedText :text="privateKeyReadable" />
             </div>
             <h3>{{ $t('seed.publicKeys') }}</h3>
-            <div class="mono break" v-for="publicKeyReadable in derivation.publicKeysReadable"
-                 :key="publicKeyReadable.slice(0,6)">
+            <div
+              class="mono break"
+              v-for="publicKeyReadable in derivation.publicKeysReadable"
+              :key="publicKeyReadable.slice(0,6)"
+            >
               -
-              <ShortenedText :text="publicKeyReadable"/>
+              <ShortenedText :text="publicKeyReadable" />
             </div>
             <h3>{{ $t('seed.addresses') }}</h3>
             <div class="mono break" v-for="address in derivation.addresses" :key="address.slice(0,6)">

@@ -86,13 +86,15 @@ const goTo = (routeObject: object): void => {
 
     <div class="top">
       <div class="logo">
-        <router-link to="/"><img src="@/assets/images/seed2.png" alt="logo"></router-link>
+        <router-link to="/"><img src="@/assets/images/seed2.png" alt="logo" /></router-link>
       </div>
       <h2>Mnemo</h2>
-      <h3 v-for="(menuItem, i) in menu" :key="i"
-          @click="goTo(menuItem.routeObject)"
-          class="menu-item"
-          :class="{active: isMenuItemActive(menuItem)}"
+      <h3
+        v-for="(menuItem, i) in menu"
+        :key="i"
+        @click="goTo(menuItem.routeObject)"
+        class="menu-item"
+        :class="{active: isMenuItemActive(menuItem)}"
       >
         {{ $t(`navBar.${menuItem.title}`) }}
       </h3>

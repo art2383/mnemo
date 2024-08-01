@@ -1,13 +1,13 @@
 import {
   privateKeyToCompressedWif,
   privateKeyToHex,
-
   publicKeyToBitcoinAddress,
   publicKeyToBitcoinSegWitAddress,
   publicKeyToEthereumAddress
 } from '@/common/helpers.ts'
 
-export const derivationConfig = { // append index after each path
+export const derivationConfig = {
+  // append index after each path
   bitcoin: {
     title: 'Bitcoin',
     path: `m/44'/0'/0'/0/`,

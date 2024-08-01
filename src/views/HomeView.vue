@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="home-view">
@@ -9,8 +7,14 @@
 
       <h2>{{$t('readme.myDemo')}}</h2>
       <ul>
-        <li>{{$t('readme.deployed')}}: <a href="https://mnemo1.vercel.app" target="_blank">mnemo1.vercel.app</a></li>
-        <li>{{$t('readme.sourceCode')}}: <a href="https://github.com/art2383/mnemo" target="_blank">github.com/art2383/mnemo</a></li>
+        <li>
+          {{$t('readme.deployed')}}:
+          <a href="https://mnemo1.vercel.app" target="_blank">mnemo1.vercel.app</a>
+        </li>
+        <li>
+          {{$t('readme.sourceCode')}}:
+          <a href="https://github.com/art2383/mnemo" target="_blank">github.com/art2383/mnemo</a>
+        </li>
       </ul>
 
       <h2>{{$t('readme.appDoes')}}</h2>
@@ -48,7 +52,6 @@
       <ul>
         <li>{{$t('readme.dis1')}}</li>
       </ul>
-
     </div>
   </div>
 </template>

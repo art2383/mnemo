@@ -2,7 +2,7 @@ const en = {
   common: {
     clear: 'Clear',
     copy: 'Copy',
-    paste: 'Paste',
+    paste: 'Paste'
   },
   navBar: {
     home: 'Home',
@@ -56,7 +56,7 @@ const en = {
     general: 'General',
     exposePrivateKeys: 'Expose Private Keys',
     qDerivations: 'Derivations Quantity',
-    plenty: 'Come on, 9 is plenty, it\'s CPU-intensive'
+    plenty: "Come on, 9 is plenty, it's CPU-intensive"
   },
   readme: {
     heading: 'Mnemo',
@@ -80,7 +80,7 @@ const en = {
     has7: 'Saving of the language and theme',
     testing: 'Testing',
     test1: 'For valid-checksum mnemonics use {link}',
-    colemanTool: 'Ian Coleman\'s BIP-39 Online Tool',
+    colemanTool: "Ian Coleman's BIP-39 Online Tool",
     test2: 'Popular wallet apps (MetaMask, Trust Wallet, etc) will do as well',
     test3: 'For invalid-checksum mnemonics use Electrum Wallet desktop app',
     disclaimer: 'Disclaimer',

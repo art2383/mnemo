@@ -2,7 +2,7 @@ const ru = {
   common: {
     clear: 'Очистить',
     copy: 'Копировать',
-    paste: 'Вставить',
+    paste: 'Вставить'
   },
   navBar: {
     home: 'Главная',

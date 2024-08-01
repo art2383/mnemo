@@ -3,9 +3,9 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 type Defaults = {
-  theme: string,
-  lang: string,
-  exposePrivateKeys: boolean,
+  theme: string
+  lang: string
+  exposePrivateKeys: boolean
   qDerivations: number
 }
 
@@ -75,10 +75,13 @@ const moduleSetup = () => {
 
   return {
     appInit,
-    theme, toggleTheme,
+    theme,
+    toggleTheme,
     switchLang,
-    exposePrivateKeys, setExposePrivateKeys,
-    qDerivations, setQDerivations
+    exposePrivateKeys,
+    setExposePrivateKeys,
+    qDerivations,
+    setQDerivations
   }
 }
 

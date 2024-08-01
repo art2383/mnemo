@@ -6,13 +6,13 @@ import { derivationConfig } from '@/common/derivation-config'
 import { useGeneralStore } from '@/stores/general.ts'
 
 type MnemonicWordsArray = {
-  word: string,
-  line: number,
+  word: string
+  line: number
   hex: string
 }[]
 
 type Seed = {
-  seedBuffer: Buffer,
+  seedBuffer: Buffer
   seedString: string
 }
 
@@ -31,7 +31,7 @@ const moduleSetup = () => {
     const words: string[] = generateMnemonic().split(' ')
     words.pop()
     const lastWord = generateMnemonic().split(' ')[0]
-    mnemonic.value = [... words, lastWord].join(' ')
+    mnemonic.value = [...words, lastWord].join(' ')
   }
 
   const clear = (): void => {
@@ -48,7 +48,7 @@ const moduleSetup = () => {
   })
 
   const isFromDictionary = computed((): boolean => {
-    return words.value.every(w => wordlists.english.includes(w))
+    return words.value.every((w) => wordlists.english.includes(w))
   })
 
   const isValidMnemonic = computed((): boolean => {
@@ -62,7 +62,7 @@ const moduleSetup = () => {
       return result
     }
     words.value.forEach((word: string) => {
-      const line: number = wordlists.english.findIndex(w => w === word) + 1
+      const line: number = wordlists.english.findIndex((w) => w === word) + 1
       const hex: string = line.toString(16)
       result.push({ word, line, hex })
     })
@@ -81,7 +81,7 @@ const moduleSetup = () => {
 
   const derivations = computed((): [] => {
     const result = []
-    Object.keys(derivationConfig).forEach(blockchain => {
+    Object.keys(derivationConfig).forEach((blockchain) => {
       const privateKeysReadable: string[] = []
       const publicKeysReadable: string[] = []
       const addresses: string[] = []
@@ -108,9 +108,18 @@ const moduleSetup = () => {
   })
 
   return {
-    mnemonic, passphrase,
-    mnemonicWords, isCorrectLength, isFromDictionary, isValidMnemonic, seed, rootKey, derivations,
-    generate, clear, generateInvalid
+    mnemonic,
+    passphrase,
+    mnemonicWords,
+    isCorrectLength,
+    isFromDictionary,
+    isValidMnemonic,
+    seed,
+    rootKey,
+    derivations,
+    generate,
+    clear,
+    generateInvalid
   }
 }
 

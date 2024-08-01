@@ -18,17 +18,17 @@ onMounted(() => {
   <div class="app" :class="'theme-'+theme">
     <div class="top-bar">
       <div class="logo">
-        <router-link to="/"><img src="@/assets/images/seed2.png" alt="logo"></router-link>
+        <router-link to="/"><img src="@/assets/images/seed2.png" alt="logo" /></router-link>
       </div>
       <h2>Mnemo</h2>
       <span class="material-symbols-rounded hamburger" @click="menuShown = true">menu</span>
     </div>
 
     <main>
-      <RouterView/>
+      <RouterView />
     </main>
 
-    <NavBar :class="{visible: menuShown}" @x-clicked="menuShown = false" @menu-item-clicked="menuShown = false"/>
+    <NavBar :class="{visible: menuShown}" @x-clicked="menuShown = false" @menu-item-clicked="menuShown = false" />
   </div>
 </template>
 
