@@ -5,6 +5,10 @@ import { describe, beforeEach, it, expect, vi } from 'vitest'
 import { useGeneralStore } from '@/stores/general.ts'
 import { useMnemonicStore } from '@/stores/mnemonic.ts'
 
+const mnemonic: string = 'father safe this pepper lava expand govern decrease alley major canoe addict'
+const mnemonicInvalid: string = 'father safe this pepper lava expand govern decrease alley major canoe zoo'
+const passphrase: string  = 'asd'
+
 describe('General Store', () => {
   beforeEach(() => {
     // creates a fresh pinia and makes it active, so it's automatically picked up by any useStore() call
@@ -34,19 +38,21 @@ describe('Mnemonic Store', () => {
   beforeEach(() => {
     const pinia = createTestingPinia({ createSpy: vi.fn })
     setActivePinia(pinia)
+
+    const mnemonicStore = useMnemonicStore()
+    mnemonicStore['mnemonic'] = mnemonic
+    mnemonicStore['passphrase'] = passphrase
   })
 
-  it('has initial state of empty strings', () => {
+  it('has set the test strings in beforeEach hook', () => {
     const mnemonicStore = useMnemonicStore()
 
-    expect(mnemonicStore['mnemonic']).toBe('') // here .value returns undefined
-    expect(mnemonicStore['passphrase']).toBe('')
+    expect(mnemonicStore['mnemonic']).toBe(mnemonic) // here .value returns undefined
+    expect(mnemonicStore['passphrase']).toBe(passphrase)
   })
 
   it('derives from valid mnemonic with passphrase for Bitcoin key #0', () => {
     const mnemonicStore = useMnemonicStore()
-    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe addict'
-    mnemonicStore['passphrase'] = 'asd'
 
     expect(mnemonicStore['derivations'][0]['privateKeysReadable'][0]).toBe(
       'L5f7UoFrwbWyfnobTKd2iCmxPMsXtDs4qkMckxhW1Sim3t7SKxj8'
@@ -59,8 +65,6 @@ describe('Mnemonic Store', () => {
 
   it('derives from valid mnemonic with passphrase for Bitcoin key #1', () => {
     const mnemonicStore = useMnemonicStore()
-    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe addict'
-    mnemonicStore['passphrase'] = 'asd'
 
     expect(mnemonicStore['derivations'][0]['privateKeysReadable'][1]).toBe(
       'KwgpoXmFU2EjZwxXMrowSQPVFRpoAVAvwH1Up2Rgd7RUWY5ptY5v'
@@ -73,8 +77,6 @@ describe('Mnemonic Store', () => {
 
   it('derives from valid mnemonic with passphrase for Bitcoin SegWit key #0', () => {
     const mnemonicStore = useMnemonicStore()
-    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe addict'
-    mnemonicStore['passphrase'] = 'asd'
 
     expect(mnemonicStore['derivations'][1]['privateKeysReadable'][0]).toBe(
       'KyAhk55VE8ncZNbDKWHFxviY3wQTsXanyzqbuMeuddX6VpSR41cr'
@@ -87,8 +89,6 @@ describe('Mnemonic Store', () => {
 
   it('derives from valid mnemonic with passphrase for Bitcoin SegWit key #1', () => {
     const mnemonicStore = useMnemonicStore()
-    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe addict'
-    mnemonicStore['passphrase'] = 'asd'
 
     expect(mnemonicStore['derivations'][1]['privateKeysReadable'][1]).toBe(
       'L4Uoh3nDFjAeAZ5uZNnyUhJiBx51w6yA85vz9D2zuDVY3QDNubYf'
@@ -101,8 +101,6 @@ describe('Mnemonic Store', () => {
 
   it('derives from valid mnemonic with passphrase for Ethereum key #0', () => {
     const mnemonicStore = useMnemonicStore()
-    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe addict'
-    mnemonicStore['passphrase'] = 'asd'
 
     expect(mnemonicStore['derivations'][2]['privateKeysReadable'][0]).toBe(
       'cdbce44997ac3bc5700acd6d3e660f6d739373799843c175cd39a37ad607f270'
@@ -117,8 +115,6 @@ describe('Mnemonic Store', () => {
 
   it('derives from valid mnemonic with passphrase for Ethereum key #1', () => {
     const mnemonicStore = useMnemonicStore()
-    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe addict'
-    mnemonicStore['passphrase'] = 'asd'
 
     expect(mnemonicStore['derivations'][2]['privateKeysReadable'][1]).toBe(
       '304acbfc2ff15460e1414360da62e94be6d0cb58c6c72393c5915e19badda7c8'
@@ -133,8 +129,6 @@ describe('Mnemonic Store', () => {
 
   it('derives from valid mnemonic with passphrase for Tron key #0', () => {
     const mnemonicStore = useMnemonicStore()
-    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe addict'
-    mnemonicStore['passphrase'] = 'asd'
 
     expect(mnemonicStore['derivations'][3]['privateKeysReadable'][0]).toBe(
       '1900e57b9f79b426538457513b07b560637bb568246f02aeb187a97c72dbdeda'
@@ -149,8 +143,6 @@ describe('Mnemonic Store', () => {
 
   it('derives from valid mnemonic with passphrase for Tron key #1', () => {
     const mnemonicStore = useMnemonicStore()
-    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe addict'
-    mnemonicStore['passphrase'] = 'asd'
 
     expect(mnemonicStore['derivations'][3]['privateKeysReadable'][1]).toBe(
       '643e919c2bf70a9b226dae4e8ccfa7a4d9d913dcb2be8c0e65b2b14801db2508'
@@ -165,8 +157,7 @@ describe('Mnemonic Store', () => {
 
   it('derives from invalid mnemonic correctly for Bitcoin SegWit key #0', () => {
     const mnemonicStore = useMnemonicStore()
-    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe zoo'
-    mnemonicStore['passphrase'] = 'asd'
+    mnemonicStore['mnemonic'] = mnemonicInvalid
 
     expect(mnemonicStore['derivations'][1]['privateKeysReadable'][0]).toBe(
       'L1uYXLZ7rfiBmTHCj8vgk6BxwBMwmwBRpD2iNNMQQS7BpeiXQW69'
@@ -179,8 +170,7 @@ describe('Mnemonic Store', () => {
 
   it('derives from invalid mnemonic correctly for Bitcoin SegWit key #1', () => {
     const mnemonicStore = useMnemonicStore()
-    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe zoo'
-    mnemonicStore['passphrase'] = 'asd'
+    mnemonicStore['mnemonic'] = mnemonicInvalid
 
     expect(mnemonicStore['derivations'][1]['privateKeysReadable'][1]).toBe(
       'Kypmqb3cRdJK1ySrT5rJH1pdNGsMQj6Ba4g1N3NVxAWo1DdH6e9F'
