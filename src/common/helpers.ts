@@ -54,3 +54,16 @@ export const publicKeyToEthereumAddress = (publicKey: Buffer): string => {
   const address: string = '0x' + addressBuffer.toString('hex')
   return address
 }
+
+export const publicKeyToTronAddress = (publicKey: Buffer): string => {
+  const uncompressedPublicKey = secp.ProjectivePoint.fromHex(publicKey.toString('hex')).toRawBytes(false)
+  const publicKeyWithoutPrefix: Buffer = Buffer.from(uncompressedPublicKey).subarray(1)
+  const hash: Buffer = createKeccakHash('keccak256').update(publicKeyWithoutPrefix).digest()
+  let hashCut: Buffer = hash.subarray(-20)
+  const prefix: Buffer = Buffer.from("41", 'hex')
+  hashCut = Buffer.concat([prefix, hashCut])
+  const checksum: Buffer = sha256(sha256(hashCut)).subarray(0, 4)
+  const addressBuffer: Buffer = Buffer.concat([hashCut, checksum])
+  const tronAddress: string = bs58.encode(addressBuffer)
+  return tronAddress
+}

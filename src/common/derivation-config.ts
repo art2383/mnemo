@@ -3,7 +3,8 @@ import {
   privateKeyToHex,
   publicKeyToBitcoinAddress,
   publicKeyToBitcoinSegWitAddress,
-  publicKeyToEthereumAddress
+  publicKeyToEthereumAddress,
+  publicKeyToTronAddress
 } from '@/common/helpers.ts'
 
 export const derivationConfig = {
@@ -25,5 +26,11 @@ export const derivationConfig = {
     path: `m/44'/60'/0'/0/`,
     getPrivateKeyReadable: privateKeyToHex,
     getAddress: publicKeyToEthereumAddress
+  },
+  tron: {
+    title: 'Tron',
+    path: `m/44'/195'/0'/0/`,
+    getPrivateKeyReadable: privateKeyToHex,
+    getAddress: publicKeyToTronAddress
   }
 }
