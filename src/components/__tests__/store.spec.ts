@@ -131,6 +131,38 @@ describe('Mnemonic Store', () => {
     )
   })
 
+  it('derives from valid mnemonic with passphrase for Tron key #0', () => {
+    const mnemonicStore = useMnemonicStore()
+    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe addict'
+    mnemonicStore['passphrase'] = 'asd'
+
+    expect(mnemonicStore['derivations'][3]['privateKeysReadable'][0]).toBe(
+      '1900e57b9f79b426538457513b07b560637bb568246f02aeb187a97c72dbdeda'
+    )
+    expect(mnemonicStore['derivations'][3]['publicKeysReadable'][0]).toBe(
+      '023a2a0f5627eb45c597d09845bebd597febdd1903f97655c4ecb7f8b43f30710b'
+    )
+    expect(mnemonicStore['derivations'][3]['addresses'][0]).toBe(
+      'TYiNqUFapDkCDCN7LYrD6PtdbJ1f3tkuyz'
+    )
+  })
+
+  it('derives from valid mnemonic with passphrase for Tron key #1', () => {
+    const mnemonicStore = useMnemonicStore()
+    mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe addict'
+    mnemonicStore['passphrase'] = 'asd'
+
+    expect(mnemonicStore['derivations'][3]['privateKeysReadable'][1]).toBe(
+      '643e919c2bf70a9b226dae4e8ccfa7a4d9d913dcb2be8c0e65b2b14801db2508'
+    )
+    expect(mnemonicStore['derivations'][3]['publicKeysReadable'][1]).toBe(
+      '0218ab49ebeb520c156b68d3a36543a026e9ffd6412855fc989df450ef055cd1ea'
+    )
+    expect(mnemonicStore['derivations'][3]['addresses'][1]).toBe(
+      'TDn6kzLZfCXKJLUHeEmX5QcKtbH379a3qY'
+    )
+  })
+
   it('derives from invalid mnemonic correctly for Bitcoin SegWit key #0', () => {
     const mnemonicStore = useMnemonicStore()
     mnemonicStore['mnemonic'] = 'father safe this pepper lava expand govern decrease alley major canoe zoo'
